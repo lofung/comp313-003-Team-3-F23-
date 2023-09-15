@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 40px;
+}
+
+.hero-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-text {
+  flex: 1;
+}
+
+.welcome-text h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.welcome-text p {
+  font-size: 18px;
+}
+
+.book-slider {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-slider img {
+  width: 2000px;
+  height: 300px;
+  margin-left: 10px;
+}
+.get-started p {
+  font-size: 15px;
+  padding-top: 30px;
+}
+.get-started a {
+  padding-top: 10px;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+main {
+  padding: 20px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+tr,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr {
+  background-color: #f0f0f0;
+}
+
+.get-started-btn {
+  padding: 12px 24px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none; /* Remove underline for anchor */
+  transition: background-color 0.3s ease;
+}
+
+.get-started-btn:hover {
+  color: #000;
+  background-color: #0056b3;
+}

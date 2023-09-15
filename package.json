@@ -1,0 +1,54 @@
+{
+  "name": "comp229-f2020-week3",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "nodemon": "nodemon server.js",
+    "devStart": "nodemon server.js",
+    "start2_obsolete": "node index.js",
+    "push": "git add . && git commit -m",
+    "open": "start http://localhost:3000",
+    "pushall": "git push -u origin main && git push heroku main"
+  },
+  "engines": {
+    "node": "^12.18.3",
+    "npm": "^6.0.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.14.0",
+    "bcrypt": "^5.1.0",
+    "bootstrap": "^4.5.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "http-errors": "~1.6.3",
+    "jquery": "^3.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.9.1",
+    "morgan": "~1.9.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "popper.js": "^1.16.1"
+  },
+  "description": "app for project I library",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsiliopoulos/COMP229-F2020-Week3.git"
+  },
+  "author": "Kelvin LAU",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsiliopoulos/COMP229-F2020-Week3/issues"
+  },
+  "homepage": "https://github.com/tsiliopoulos/COMP229-F2020-Week3#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "http-server": "^14.1.1"
+  }
+}

@@ -1,0 +1,108 @@
+
+<%- include partials/header.ejs %>
+
+<%- include partials/main_nav.ejs %>
+  
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 class="display-4"><%= title %> page</h1>
+      <br />
+      <table id="contactTable">
+        <tr>
+            <td style="min-width:200px">
+                Contact Name
+            </td>
+            <td style="min-width:200px">
+                Contact Number
+            </td>
+            <td style="min-width:200px">
+                Email Address
+            </td>
+        </tr>
+        <tr>
+            <td>
+                loading....
+            </td>
+        </tr>
+      </table>
+    </main>
+
+  <script>
+
+
+    async function fetchAllContacts(){
+        try {
+            let res = await fetch('/allbusinesscontacts')
+            let answer = await res.json()
+            let htmlAttachment = `<tr>
+                    <td style="min-width:200px">
+                        Contact Name
+                    </td>
+                    <td style="min-width:200px">
+                        Contact Number
+                    </td>
+                    <td style="min-width:200px">
+                        Email Address
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>`
+            //console.log(answer)
+            answer.forEach(item => {
+                let htmlSegment = `
+                <tr>
+                    <td>
+                        ${item.name}
+                    </td>
+                    <td>
+                        ${item.number}
+                    </td>
+                    <td>
+                        ${item.email}
+                    </td>
+                    <td>
+                        <a href="/businessedit/${item._id}" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i></button></a>
+                    </td>
+                    <td>
+                        <button onclick="onClickDelete('${item._id}')"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+                `
+                htmlAttachment = htmlAttachment + htmlSegment
+            })
+
+            let htmlSegment2 = `<tr></tr><tr>                    
+                        <td><a href="/businessedit/0" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i>Add New</button></a></td>
+                        </tr>`
+            htmlAttachment = htmlAttachment + htmlSegment2
+
+            document.getElementById("contactTable").innerHTML = htmlAttachment
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    async function onClickDelete(id){
+        await fetch(
+	    	`/deletebusinesscontacts/${id}`,
+    		{ method: 'DELETE' }
+        )
+        window.location.reload();
+    }
+
+    fetchAllContacts()
+  </script>
+  
+<%- include partials/bottom_nav.ejs %>  
+
+<%- include partials/footer.ejs %>
+  
+
+
+
+

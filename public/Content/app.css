@@ -1,0 +1,28 @@
+
+/* custom css goes here */
+
+
+.bg-darkblue{
+    background-color: #00004F
+}
+
+.main{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+
+.asunabgimage{
+    position: absolute;
+    z-index: -1;
+    opacity: 0.4;
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+

@@ -1,0 +1,93 @@
+
+<%- include partials/header.ejs %>
+
+<%- include partials/main_nav.ejs %>
+  
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 class="display-4"><%= title %> page</h1>
+      <br />
+      <form id="form">
+        <h2>Edit contact form</h2>
+        <!-- https://www.100forms.com/sources/ready-forms/contact-us-form/ -->
+        <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
+        <tr> <td>
+        <label for="_id">_id*:</label>
+        </td> <td>
+        <input name="_id" id="_id_box" type="text" maxlength="100" style="width:100%;max-width:250px;" disabled />
+        </td> </tr> <tr> <td>
+        <label for="Name">Name*:</label>
+        </td> <td>
+        <input name="Name" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
+        </td> </tr> <tr> <td>
+        <label for="PhoneNumber">Phone number:</label>
+        </td> <td>
+        <input name="PhoneNumber" id="phone_box" type="text" maxlength="43" style="width:100%;max-width:250px;" />
+        </td> </tr> <tr> <td>
+        <label for="FromEmailAddress">Email address*:</label>
+        </td> <td>
+        <input name="FromEmailAddress" id="email_box" type="text" maxlength="90" style="width:100%;max-width:250px;" />
+        </td> </tr> <tr> <td>
+        * - required fields
+        </td> <td>
+        <div style="float:right"></div>
+        <button id="submit" onClick="submit">Submit Edit</button>
+        <!-- button name="Check input" id="check" value="Check input" onClick="checkInput(e)">Check Inputs</button -->
+        <a href="/business" style="text-decoration: none">Cancel</a>
+        </td> </tr>
+        </table>
+        </form>
+
+  </main>
+
+  
+  <script>
+
+
+    async function fetchContact(id){
+      if (id!=0){
+        try {
+            let res = await fetch(`/businesscontactsid/${id}`)
+            let answer = await res.json()
+            //console.log(answer[0])
+            document.getElementById("_id_box").setAttribute('value', answer[0]["_id"])
+            document.getElementById("name_box").setAttribute('value', answer[0]["name"])
+            document.getElementById("phone_box").setAttribute('value', answer[0]["number"])
+            document.getElementById("email_box").setAttribute('value', answer[0]["email"])
+        } catch (e) {
+            console.error(e)
+        }
+      } else {
+        document.getElementById("_id_box").setAttribute('value', 0)
+      }
+
+    }
+
+    async function submit(e){
+        e.preventDefault();
+        let id = document.getElementById("_id_box").value
+        let name = document.getElementById("name_box").value
+        let number = document.getElementById("phone_box").value
+        let email = document.getElementById("email_box").value
+        //console.log({id, name, number, email})
+        //alert("OK")
+        await fetch(
+	    	`/editbusinesscontacts/${id}?name=${name}&number=${number}&email=${email}`,
+    		{ method: 'POST' }
+        )
+        window.location.href="/business"
+    }
+
+    fetchContact(window.location.pathname.split("/").pop())
+    document.getElementById("submit").addEventListener ("click", submit);
+  </script>
+  
+<%- include partials/bottom_nav.ejs %>  
+
+<%- include partials/footer.ejs %>
+  
+
+
+
+

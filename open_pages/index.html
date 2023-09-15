@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canada Library</title>
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Add Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="hero-section">
+        <div class="welcome-text">
+          <h1>Library Book Borowing and Returning System</h1>
+          <p>Explore our collection of books and find your next adventure!</p>
+          <div class="get-started">
+            <p>Get Your Library Card Today To Use The Library Features!</p>
+            <a href="#" class="get-started-btn">Get Started Today</a>
+          </div>
+        </div>
+        <div class="book-slider">
+          <div id="carouselExample" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="book1.jpg" alt="Book 1" class="d-block w-100" />
+              </div>
+              <div class="carousel-item">
+                <img src="book2.jpg" alt="Book 2" class="d-block w-100" />
+              </div>
+              <div class="carousel-item">
+                <img src="book3.jpg" alt="Book 3" class="d-block w-100" />
+              </div>
+              <!-- Add more book images as needed -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <h2>Available Books</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Book Name</th>
+            <th>Author Name</th>
+            <th>ISBN</th>
+            <th>Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table rows (book details) will be added using JavaScript -->
+        </tbody>
+      </table>
+    </main>
+    <!-- Add Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
