@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../Content/laura_styles.css">
+  <title>Feedback and Error Submission</title>
+</head>
+<body>
+  <h1>Submit your feedback or report an issue here.</h1>
+  
+  <% if (success) { %>
+    <p class="success-message">Thank you for submitting your feedback!</p>
+  <% } %>
+  
+  <form action="/submit-feedback" method="post">
+    <label for="feedback">Your Feedback:</label>
+    <textarea name="feedback" id="feedback" rows="4" required></textarea>
+    <button type="submit">Submit Feedback</button>
+  </form>
+</body>
+</html>

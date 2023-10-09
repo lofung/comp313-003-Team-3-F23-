@@ -1,7 +1,7 @@
 
-<%- include partials/header.ejs %>
+<%- include partials/header_open.ejs %>
 
-<%- include partials/main_nav.ejs %>
+<%- include partials/main_nav_open.ejs %>
   
 
   <!-- Main Content -->
@@ -9,7 +9,7 @@
     <main class="container">
       <div class="jumbotron">
         <h1 class="display-4">Book list</h1>
-        <a href="/closed/addbookform">Add books</a>
+        <a href="/addbookform">Add books</a>
         <div style="display: flex">
           <table id="bookTable">
             <tr>
@@ -70,21 +70,10 @@
                 <td>
                     ${item.availability}
                 </td>
-                <td>
-                    <a href="/books/v1/edit/${item.id}" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i></button></a>
-                </td>
-                <td>
-                    <a href ="/books/v1/delete/${item.id}" style="text-decoration: none"><button><i class="bi bi-trash"></i></button></a>
-                </td>
             </tr>
             `
             htmlAttachment = htmlAttachment + htmlSegment
         })
-
-        let htmlSegment2 = `<tr></tr><tr>                    
-                    <td><a href="/closed/addbookform" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i>Add New</button></a></td>
-                    </tr>`
-        htmlAttachment = htmlAttachment + htmlSegment2
 
         document.getElementById("bookTable").innerHTML = htmlAttachment
     } catch (err) {
@@ -96,7 +85,7 @@
 fetchAllBooks()
 </script>
   
-<%- include partials/bottom_nav.ejs %>  
+<%- include partials/bottom_nav_open.ejs %>  
 
-<%- include partials/footer.ejs %>
+<%- include partials/footer_open.ejs %>
   

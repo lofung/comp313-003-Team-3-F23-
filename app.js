@@ -17,6 +17,7 @@ const methodOverride = require('method-override')
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let bookRouter = require('./routes/book');
+let openRouter = require('./routes/open');
 
 
 let app = express();
@@ -58,9 +59,10 @@ app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/', indexRouter);
+app.use('/closed', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books', bookRouter);
+app.use('/', openRouter)
 
 
 // catch 404 and forward to error handler

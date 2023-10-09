@@ -1,7 +1,7 @@
 
-<%- include partials/header.ejs %>
+<%- include partials/header_open.ejs %>
 
-<%- include partials/main_nav.ejs %>
+<%- include partials/main_nav_open.ejs %>
   
 
   <!-- Main Content -->
@@ -9,7 +9,7 @@
     <div class="jumbotron">
         <h1>Login</h1>
 
-        <form action="/users/v1/login" method="POST">
+        <form action="users/v1/login" method="POST">
           <div>
             <label for="name">User Name</label>
             <input type="text" id="name" name="name" required>
@@ -33,9 +33,9 @@
     </div>
   </main>
   
-<%- include partials/bottom_nav.ejs %>  
+<%- include partials/bottom_nav_open.ejs %>  
 
-<%- include partials/footer.ejs %>
+<%- include partials/footer_open.ejs %>
   
 
 

@@ -1,6 +1,6 @@
 
 <!-- Main Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-grey">
+<nav class="navbar navbar-expand-lg navbar-dark bg-darkblue">
   <% if (typeof user === 'undefined') { %>
     <a class="navbar-brand" href="/" style="border:3px solid white">Library</a>
   <% } else  { %>
@@ -18,7 +18,7 @@
       <% } else  { %>
       <li class="nav-item">
       <% } %>
-        <a class="nav-link" href="/closed/home"><i class="fa-solid fa-house"></i> Home </a>
+        <a class="nav-link" href="/home"><i class="fa-solid fa-house"></i> Home </a>
       </li>
 
       <% if (title == "Book List") { %>
@@ -26,15 +26,16 @@
         <% } else  { %>
         <li class="nav-item">
         <% } %>
-          <a class="nav-link" href="/closed/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
+          <a class="nav-link" href="/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
         </li>
 
+      <!--
       <% if (title == "borrow") { %>
       <li class="nav-item active">
       <% } else  { %>
       <li class="nav-item">
       <% } %>
-        <a class="nav-link" href="/closed/borrow"><i class="fa-regular fa-id-card"></i> Borrow </a>
+        <a class="nav-link" href="/borrow"><i class="fa-regular fa-id-card"></i> Borrow </a>
       </li>
 
       <% if (title == "Return") { %>
@@ -42,9 +43,9 @@
         <% } else  { %>
         <li class="nav-item">
         <% } %>
-          <a class="nav-link" href="/closed/return"><i class="fa-solid fa-toolbox"></i> Return </a>
+          <a class="nav-link" href="/return"><i class="fa-solid fa-toolbox"></i> Return </a>
         </li>
-
+      -->
 
       <% if (typeof user === 'undefined') { %>
         <% if (title == "Register") { %>
@@ -52,7 +53,7 @@
           <% } else  { %>
           <li class="nav-item">
           <% } %>
-            <a class="nav-link" href="/closed/register"><i class="fa-solid fa-toolbox"></i> Register </a>
+            <a class="nav-link" href="/register"><i class="fa-solid fa-toolbox"></i> Register </a>
           </li>
 
         <% if (title == "Login") { %>
@@ -60,7 +61,7 @@
           <% } else  { %>
           <li class="nav-item">
           <% } %>
-            <a class="nav-link" href="/closed/login"><i class="fa-sharp fa-solid fa-right-to-bracket"></i> Log in </a>
+            <a class="nav-link" href="/login"><i class="fa-sharp fa-solid fa-right-to-bracket"></i> Log in </a>
           </li>
 
       <% } else  { %>
