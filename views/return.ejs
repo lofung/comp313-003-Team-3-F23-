@@ -3,25 +3,149 @@
 <%- include partials/header.ejs %>
 
 <%- include partials/main_nav.ejs %>
-  
 
-  <!-- Main Content -->
-  <div class="main">
-    <main class="container">
-      <div class="jumbotron">
-        <h1 class="display-4">Return page</h1>
-        <br /> <br />
-        <!-- project item -->
-        <div style="display: flex">
-          
-        </div>
-        <!-- project item -->
-        
+<h2>Return a Book</h2>
+<form id="returnForm">
+  <label for="returnBookID">Book ID:</label>
+  <input type="text" id="returnBookID" name="returnBookID" required>
 
-      </div>
-    </main>
-  </div>
+  <button type="submit">Return</button>
+</form>  
+<br />
+<br />
+
+ <table id="transactionTable" border="1">
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Customer ID</th>
+      <th>Book ID</th>
+      <th>Transaction Date</th>
+      <th>Transaction Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Table rows will be populated with data fetched from /transactions endpoint -->
+  </tbody>
+</table>
+
+
+<script>
+    /////////////////need to work in the script///////////
+// Function to populate the transactions table with data
+async function populateTransactionTable() {
+  const tableBody = document.querySelector('#transactionTable tbody');
+  tableBody.innerHTML = ''; // Clear existing table rows
   
+  let res = await fetch('/transactions')
+  let answer = await res.json()
+
+  answer.forEach(transaction => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${transaction.transactionid}</td>
+      <td>${transaction.customerid}</td>
+      <td>${transaction.bookid}</td>
+      <td>${transaction.trxndate}</td>
+      <td>${transaction.trxntype}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+  // Borrow Form submission handling
+  document.getElementById('borrowForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const libraryCard = document.getElementById('libraryCard').value;
+    const bookID = document.getElementById('bookID').value;
+
+    // Prepare the data to be sent in the request body
+    const now = new Date()
+    const isoDate = now.toISOString();
+    const data = {
+    customerid: libraryCard,
+      bookid: bookID,
+      trxndate: isoDate.split("T")[0],
+      trxntype: 'borrow',
+    };
+
+    // Send a POST request using fetch API to the /transaction endpoint
+    fetch('/transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Borrow Request Response:', data);
+      // Handle the response from the server as needed (e.g., show success message, error message, etc.)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle any errors that occurred during the request
+    });
+
+    // Clear the form fields after submission
+    document.getElementById('libraryCard').value = '';
+    document.getElementById('bookID').value = '';
+    await populateTransactionTable()
+  });
+
+  // Return Form submission handling
+  document.getElementById('returnForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const returnBookID = document.getElementById('returnBookID').value;
+
+    // Prepare the data to be sent in the request body
+    const now = new Date()
+    const isoDate = now.toISOString();
+    const data = {
+    customerid: 0,
+      bookid: returnBookID,
+      trxndate: isoDate.split("T")[0],
+      trxntype: 'return',
+    };
+
+    // Send a POST request using fetch API to the /transaction endpoint
+    fetch('/transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Return Request Response:', data);
+      // Handle the response from the server as needed (e.g., show success message, error message, etc.)
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Handle any errors that occurred during the request
+    });
+
+    // Clear the form field after submission
+    document.getElementById('returnBookID').value = '';
+    
+    await populateTransactionTable()
+  });
+  
+  populateTransactionTable()
+  
+  
+</script>
 <%- include partials/bottom_nav.ejs %>  
 
 <%- include partials/footer.ejs %>
