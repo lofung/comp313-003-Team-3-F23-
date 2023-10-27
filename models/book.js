@@ -16,11 +16,19 @@ const bookSchema = new mongoose.Schema({
         type: String
     },
     expiryDate: {
-        type: Date
+        type: Date,
+        default: new Date().toISOString().split("T")[0] 
     },
     reservation: {
         type: [String]
     }, 
+    pastBorrowers: {
+        type: [String]
+    },
+    comments :{
+        type: Array,
+        default: []
+    },
     bookStatus: {
         type: String,
         default: 'available'

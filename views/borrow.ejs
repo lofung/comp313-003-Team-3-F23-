@@ -4,6 +4,8 @@
 <%- include partials/main_nav.ejs %>
   
 <h2>Borrow a Book</h2>
+
+<!-- Borrow Form -->
 <form id="borrowForm">
   <label for="libraryCard">Library Card Number:</label>
   <input type="text" id="libraryCard" name="libraryCard" required>
@@ -14,17 +16,19 @@
   <button type="submit">Borrow</button>
 </form>
 
+<div id="error" style="color:red; font-weight: bold;"></div>
+
 <br />
 <br />
 
  <table id="transactionTable" border="1">
   <thead>
     <tr>
-      <th>Transaction ID</th>
+
       <th>Customer ID</th>
       <th>Book ID</th>
       <th>Transaction Date</th>
-      <th>Transaction Type</th>
+      <th>Return Date</th>
     </tr>
   </thead>
   <tbody>
@@ -34,22 +38,30 @@
 
 
 <script>
+
+let list = [
+  //{
+  //  customerid: 1,
+  //  bookid: 1,
+  //  trxndate: '2021-10-01',
+  //  returndate: '2021-10-08'
+  //} //this is demo line for the transction
+]
 // Function to populate the transactions table with data
 async function populateTransactionTable() {
   const tableBody = document.querySelector('#transactionTable tbody');
   tableBody.innerHTML = ''; // Clear existing table rows
   
-  let res = await fetch('/transactions')
-  let answer = await res.json()
+  //let res = await fetch('/transactions')
+  //let answer = await res.json()
 
-  answer.forEach(transaction => {
+  list.forEach(transaction => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${transaction.transactionid}</td>
       <td>${transaction.customerid}</td>
       <td>${transaction.bookid}</td>
       <td>${transaction.trxndate}</td>
-      <td>${transaction.trxntype}</td>
+      <td>${transaction.returndate}</td>
     `;
     tableBody.appendChild(row);
   });
@@ -63,16 +75,18 @@ async function populateTransactionTable() {
 
     // Prepare the data to be sent in the request body
     const now = new Date()
+    const returnDate = new Date().setDate(new Date().getDate() + 7)
     const isoDate = now.toISOString();
-    const data = {
-    customerid: libraryCard,
+    let data =   {
+      customerid: libraryCard,
       bookid: bookID,
-      trxndate: isoDate.split("T")[0],
-      trxntype: 'borrow',
-    };
+      trxndate: now.toISOString().split("T")[0],
+      //how to add 7 days to the date 
+      returndate: returnDate,
+    }
 
     // Send a POST request using fetch API to the /transaction endpoint
-    fetch('/transaction', {
+    fetch('/books/v1/addborrow', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,13 +95,26 @@ async function populateTransactionTable() {
     })
     .then(response => {
       if (!response.ok) {
+        console.log("this is response")
+        console.log(response)
+        console.log(response.error)
         throw new Error('Network response was not ok');
       }
       return response.json();
     })
-    .then(data => {
-      console.log('Borrow Request Response:', data);
+    .then(response => {
+      console.log('Borrow Request Response:', response);
+      if (response.status === 500){
+        document.getElementById('error').innerHTML = response.error
+      } else {
+        list.push(data) // add current trasaction to the list
+        document.getElementById('error').innerHTML = ''
+        document.getElementById('libraryCard').value = '';
+        document.getElementById('bookID').value = '';
+        populateTransactionTable()
+      }
       // Handle the response from the server as needed (e.g., show success message, error message, etc.)
+
     })
     .catch(error => {
       console.error('Error:', error);
@@ -95,59 +122,17 @@ async function populateTransactionTable() {
     });
 
     // Clear the form fields after submission
-    document.getElementById('libraryCard').value = '';
-    document.getElementById('bookID').value = '';
-    await populateTransactionTable()
-  });
 
-  // Return Form submission handling
-  document.getElementById('returnForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const returnBookID = document.getElementById('returnBookID').value;
-
-    // Prepare the data to be sent in the request body
-    const now = new Date()
-    const isoDate = now.toISOString();
-    const data = {
-    customerid: 0,
-      bookid: returnBookID,
-      trxndate: isoDate.split("T")[0],
-      trxntype: 'return',
-    };
-
-    // Send a POST request using fetch API to the /transaction endpoint
-    fetch('/transaction', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Return Request Response:', data);
-      // Handle the response from the server as needed (e.g., show success message, error message, etc.)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Handle any errors that occurred during the request
-    });
-
-    // Clear the form field after submission
-    document.getElementById('returnBookID').value = '';
-    
-    await populateTransactionTable()
+    populateTransactionTable()
   });
   
   populateTransactionTable()
   
   
 </script>
+
+<br />
+<br />
   
 <%- include partials/bottom_nav.ejs %>  
 

@@ -53,51 +53,6 @@ async function populateTransactionTable() {
   });
 }
 
-  // Borrow Form submission handling
-  document.getElementById('borrowForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const libraryCard = document.getElementById('libraryCard').value;
-    const bookID = document.getElementById('bookID').value;
-
-    // Prepare the data to be sent in the request body
-    const now = new Date()
-    const isoDate = now.toISOString();
-    const data = {
-    customerid: libraryCard,
-      bookid: bookID,
-      trxndate: isoDate.split("T")[0],
-      trxntype: 'borrow',
-    };
-
-    // Send a POST request using fetch API to the /transaction endpoint
-    fetch('/transaction', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Borrow Request Response:', data);
-      // Handle the response from the server as needed (e.g., show success message, error message, etc.)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Handle any errors that occurred during the request
-    });
-
-    // Clear the form fields after submission
-    document.getElementById('libraryCard').value = '';
-    document.getElementById('bookID').value = '';
-    await populateTransactionTable()
-  });
-
   // Return Form submission handling
   document.getElementById('returnForm').addEventListener('submit', async function(event) {
     event.preventDefault();
@@ -114,7 +69,7 @@ async function populateTransactionTable() {
     };
 
     // Send a POST request using fetch API to the /transaction endpoint
-    fetch('/transaction', {
+    fetch('/addreturn', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -146,6 +101,10 @@ async function populateTransactionTable() {
   
   
 </script>
+
+
+<br />
+<br />
 <%- include partials/bottom_nav.ejs %>  
 
 <%- include partials/footer.ejs %>

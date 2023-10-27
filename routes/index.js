@@ -29,12 +29,12 @@ router.get('/home', function(req, res, next) {
 });
 
 /* GET Borrow page. */
-router.get('/borrow', function(req, res, next) {
+router.get('/borrow', checkAuthenticated, function(req, res, next) {
   res.render('borrow', { title: 'Borrow', user: req.user});
 });
 
 /* GET Return page. */
-router.get('/return', function(req, res, next) {
+router.get('/return', checkAuthenticated, function(req, res, next) {
   res.render('return', { title: 'Return', user: req.user});
 });
 

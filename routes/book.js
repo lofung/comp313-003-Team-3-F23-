@@ -1,5 +1,6 @@
 
 const booksModel = require('../models/book.js');
+const usersModel = require('../models/user.js');
 
 var express = require('express');
 var router = express.Router();
@@ -65,6 +66,50 @@ router.get('/v1/delete/:id', checkAuthenticated, async function(req, res, next) 
 
 
 });
+
+/* add a borrow record*/
+
+router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next) {
+  const userid = req.body.customerid
+  const id = req.body.bookid // this is book id
+  const trxndate = req.body.trxndate
+  //how to add 7 days to the date 
+  const returndate = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split("T")[0]
+  //console.log(trxndate)
+  //console.log(returndate)
+  //console.log(id)
+  try {
+    const person = await usersModel.findOne({id: userid});
+    //console.log(book)
+    if (person===null) {
+        console.log('Library Card ID not found');
+        res.send({status:500, error:"Library Card ID not found"})
+        return;
+    }
+
+    const book = await booksModel.findOne({id});
+    //console.log(book)
+    if (book===null) {
+        console.log('Book not found');
+        res.send({status:500, error:"Book not found"})
+        return;
+    }
+
+    if (book.bookStatus == 'available') {
+        book.borrowedBy = userid;
+        book.expiryDate = new Date(returndate);
+        book.bookStatus = 'borrowed';
+        await book.save();
+        console.log('Book borrowed successfully.');
+        res.send({status:200, message:"Book borrowed successfully."})
+    } else {
+        console.log('Book is not available for borrowing.');
+        res.send({status:500, error:"Book is not available for borrowing."})
+    }
+} catch (error) {
+    console.error('Error borrowing book:', error);
+}
+})
 
 /* secured API for edit contacts */
 router.post('/v1/edit/:id', checkAuthenticated, async function(req, res, next) {
