@@ -79,6 +79,8 @@ router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next)
   //console.log(returndate)
   //console.log(id)
   try {
+
+    //check if the user exists
     const person = await usersModel.findOne({id: userid});
     //console.log(book)
     if (person===null) {
@@ -87,11 +89,19 @@ router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next)
         return;
     }
 
+    //check if the book exists
     const book = await booksModel.findOne({id});
     //console.log(book)
     if (book===null) {
         console.log('Book not found');
         res.send({status:500, error:"Book not found"})
+        return;
+    }
+
+    //check if book is reserved by the user
+    if (book.reservation[0]!=userid && book.reservation.length>0) {
+        console.log('Book is reserved by another user');
+        res.send({status:500, error:"Book is reserved by another user"})
         return;
     }
 
