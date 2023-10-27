@@ -68,7 +68,6 @@ router.get('/v1/delete/:id', checkAuthenticated, async function(req, res, next) 
 });
 
 /* add a borrow record*/
-
 router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next) {
   const userid = req.body.customerid
   const id = req.body.bookid // this is book id
@@ -105,7 +104,8 @@ router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next)
         return;
     }
 
-    if (book.bookStatus == 'available') {
+    // last if book is available then allow borrow
+    if (book.bookStatus == 'available' || book.bookStatus == 'reserved') {
         book.borrowedBy = userid;
         book.expiryDate = new Date(returndate);
         book.bookStatus = 'borrowed';
@@ -115,6 +115,51 @@ router.post('/v1/addborrow/', checkAuthenticated, async function(req, res, next)
     } else {
         console.log('Book is not available for borrowing.');
         res.send({status:500, error:"Book is not available for borrowing."})
+    }
+} catch (error) {
+    console.error('Error borrowing book:', error);
+}
+})
+
+/* add a return record*/
+router.post('/v1/addreturn/', checkAuthenticated, async function(req, res, next) {
+  //const userid = req.body.customerid
+  const id = req.body.bookid // this is book id
+  const trxndate = req.body.trxndate
+  //how to add 7 days to the date 
+  //const returndate = new Date(new Date().setDate(new Date().getDate() + 7)).toISOString().split("T")[0]
+  try {
+
+    //check if the book exists
+    const book = await booksModel.findOne({id});
+    //console.log(book)
+    if (book===null) {
+        console.log('Book not found');
+        res.send({status:500, error:"Book not found, check if book is in this library?"})
+        return;
+    }
+
+    //check if book is reserved by the user
+    if (book.reservation[0]!=userid && book.reservation.length>0) {
+        console.log('Book is reserved by another user');
+        res.send({status:500, error:"Book is reserved by another user"})
+        return;
+    }
+
+    // last if book is available then allow borrow
+    try {
+      book.borrowedBy = "";
+      if (book.reservation.length>0) {
+        book.bookStatus = 'reserved';
+      } else{
+        book.bookStatus = 'available';
+      }
+      await book.save();
+      console.log('Book returned successfully.');
+      res.send({status:200, message:"Book returned successfully."})
+    } catch (e){
+        console.log('Book return unsuccessful. Error: ' + e);
+        res.send({status:500, error:"Book return unsuccessful. Error: " + e})
     }
 } catch (error) {
     console.error('Error borrowing book:', error);

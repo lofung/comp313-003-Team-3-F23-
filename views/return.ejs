@@ -17,11 +17,9 @@
  <table id="transactionTable" border="1">
   <thead>
     <tr>
-      <th>Transaction ID</th>
-      <th>Customer ID</th>
-      <th>Book ID</th>
-      <th>Transaction Date</th>
-      <th>Transaction Type</th>
+      <td>${transaction.customerid}</td>
+      <td>${transaction.bookid}</td>
+      <td>${transaction.trxndate}</td>
     </tr>
   </thead>
   <tbody>
@@ -31,6 +29,8 @@
 
 
 <script>
+
+  let list = []
     /////////////////need to work in the script///////////
 // Function to populate the transactions table with data
 async function populateTransactionTable() {
@@ -43,11 +43,10 @@ async function populateTransactionTable() {
   answer.forEach(transaction => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${transaction.transactionid}</td>
       <td>${transaction.customerid}</td>
       <td>${transaction.bookid}</td>
       <td>${transaction.trxndate}</td>
-      <td>${transaction.trxntype}</td>
+
     `;
     tableBody.appendChild(row);
   });
@@ -82,8 +81,17 @@ async function populateTransactionTable() {
       }
       return response.json();
     })
-    .then(data => {
-      console.log('Return Request Response:', data);
+    .then(response => {
+      console.log('Return Request Response:', response);
+      // Handle the response from the server as needed (e.g., show success message, error message, etc.)
+      if (response.status === 500){
+        document.getElementById('error').innerHTML = response.error
+      } else {
+        list.push(data) // add current trasaction to the list
+        document.getElementById('error').innerHTML = ''
+        document.getElementById('bookID').value = '';
+        populateTransactionTable()
+      }
       // Handle the response from the server as needed (e.g., show success message, error message, etc.)
     })
     .catch(error => {
