@@ -11,15 +11,16 @@
 
   <button type="submit">Return</button>
 </form>  
+<div id="error" style="color:red; font-weight: bold;"></div>
 <br />
 <br />
 
  <table id="transactionTable" border="1">
   <thead>
     <tr>
-      <td>${transaction.customerid}</td>
-      <td>${transaction.bookid}</td>
-      <td>${transaction.trxndate}</td>
+      <td>Book ID</td>
+      <td>Transaction Date</td>
+      <td>Status</td>
     </tr>
   </thead>
   <tbody>
@@ -30,27 +31,29 @@
 
 <script>
 
-  let list = []
+  let list = [
+    //{
+    //  customerid: 1,
+    //  bookid: 1,
+    //  trxndate: '2021-10-01',
+    //  returndate: '2021-10-08'
+    //}, // this is test data
+  ]
     /////////////////need to work in the script///////////
-// Function to populate the transactions table with data
-async function populateTransactionTable() {
-  const tableBody = document.querySelector('#transactionTable tbody');
-  tableBody.innerHTML = ''; // Clear existing table rows
-  
-  let res = await fetch('/transactions')
-  let answer = await res.json()
-
-  answer.forEach(transaction => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${transaction.customerid}</td>
-      <td>${transaction.bookid}</td>
-      <td>${transaction.trxndate}</td>
-
-    `;
-    tableBody.appendChild(row);
-  });
-}
+  // Function to populate the transactions table with data
+  async function populateTransactionTable() {
+    const tableBody = document.querySelector('#transactionTable tbody');
+    tableBody.innerHTML = ''; // Clear existing table rows
+    
+    list.forEach(transaction => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${transaction.bookid}</td>
+        <td>${transaction.trxndate}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
 
   // Return Form submission handling
   document.getElementById('returnForm').addEventListener('submit', async function(event) {
@@ -61,14 +64,14 @@ async function populateTransactionTable() {
     const now = new Date()
     const isoDate = now.toISOString();
     const data = {
-    customerid: 0,
+      customerid: 0,
       bookid: returnBookID,
       trxndate: isoDate.split("T")[0],
       trxntype: 'return',
     };
 
     // Send a POST request using fetch API to the /transaction endpoint
-    fetch('/addreturn', {
+    fetch('/books/v1/addreturn', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -87,9 +90,10 @@ async function populateTransactionTable() {
       if (response.status === 500){
         document.getElementById('error').innerHTML = response.error
       } else {
+        data.status = "success"
         list.push(data) // add current trasaction to the list
         document.getElementById('error').innerHTML = ''
-        document.getElementById('bookID').value = '';
+        document.getElementById('returnBookID').value = '';
         populateTransactionTable()
       }
       // Handle the response from the server as needed (e.g., show success message, error message, etc.)
@@ -102,7 +106,7 @@ async function populateTransactionTable() {
     // Clear the form field after submission
     document.getElementById('returnBookID').value = '';
     
-    await populateTransactionTable()
+    populateTransactionTable()
   });
   
   populateTransactionTable()

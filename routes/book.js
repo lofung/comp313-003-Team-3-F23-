@@ -139,14 +139,7 @@ router.post('/v1/addreturn/', checkAuthenticated, async function(req, res, next)
         return;
     }
 
-    //check if book is reserved by the user
-    if (book.reservation[0]!=userid && book.reservation.length>0) {
-        console.log('Book is reserved by another user');
-        res.send({status:500, error:"Book is reserved by another user"})
-        return;
-    }
-
-    // last if book is available then allow borrow
+    // last if book is available then allow return
     try {
       book.borrowedBy = "";
       if (book.reservation.length>0) {
