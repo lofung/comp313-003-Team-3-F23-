@@ -1,5 +1,7 @@
 
 const contactsModel = require('../models/contacts.js');
+const booksModel = require('../models/book.js');
+const axios = require('axios');
 
 var express = require('express');
 var router = express.Router();
@@ -42,6 +44,56 @@ router.get('/return', function(req, res, next) {
 router.get('/booklist', function(req, res, next) {
   res.render('booklist_open', { title: 'Book List', user: req.user});
 });
+
+/* GET BOOK detail page. */
+router.get('/bookDetails/:id', async function(req, res, next) {
+  const _id = req.params.id
+  const tempBook = await booksModel.find({_id})
+  res.render('bookdetail_open', { title: 'Book Details', book: tempBook[0], user: req.user});
+});
+
+/* GET BOOK return and feedback form. */
+router.get('/returnbook/:id', async function(req, res, next) {
+  const _id = req.params.id
+  const tempBook = await booksModel.find({_id})
+  res.render('bookreturn_open', { title: 'Book Return and Feedback', book: tempBook[0], user: req.user});
+});
+
+/* POST BOOK return and feedback form. */
+router.post('/bookreturnfb/:id', async function(req, res, next) {
+  const _id = req.params.id
+  const feedback = req.body.comment
+  
+  const feedbackData = {
+    name : feedback,
+  };
+
+  const feedbackJSON = JSON.stringify(feedbackData);
+
+  const apiUrl = 'http://127.0.0.1:8354/analyze_sent';
+  //Send the comment to Sentiment Analysis API
+  try {
+    const response = await axios.post(apiUrl, feedbackJSON, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Handle the API response
+    if (response.status === 200) {
+      res.status(200).send('Thank god it worked!');
+    } else {
+      res.status(response.status).send('Feedback submission failed');
+    }
+  } catch (error) {
+    console.error('Error sending feedback:', error);
+    res.status(500).send('Error sending feedback');
+  }
+
+// TO DO: Save comment to DB, increment upvotes or downvotes as appropriate, redirect to booklist, API response logic
+//  const tempBook = await booksModel.find({_id});
+});
+
 
 router.get('/business', checkAuthenticated, function(req, res, next) {
   res.render('businessViews_open', { title: 'Business Contacts', user: req.user});
