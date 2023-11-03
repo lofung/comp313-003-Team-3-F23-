@@ -12,6 +12,7 @@
       <form method="POST" action="/bookreturnfb/<%= book._id %>">
           <input type="hidden" name="bookId" value="<%= book.id %>">
           <label for="comment">Your Comment:</label>
+          <br>
           <textarea name="comment" id="comment" rows="5" cols="50" required></textarea>
           <br>
           <input type="submit" value="Return Book">
