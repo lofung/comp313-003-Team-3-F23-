@@ -1,8 +1,4 @@
-
-
-<%- include partials/header.ejs %>
-
-<%- include partials/main_nav.ejs %>
+<%- include partials/navbar.ejs %>
     <!-- change all time git -->
     <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
 
@@ -11,13 +7,16 @@
   <header>
     <div class="hero-section">
       <div class="welcome-text">
-        <h1>Library Book Borrowing and Returning System</h1>
+        <h1>Books On the Fly - Library Drone Delivery System</h1>
         <p>Explore our collection of books and find your next adventure!</p>
-        <div class="get-started">
-          <p>Get Your Library Card Today To Use The Library Features!</p>
-          <p>THIS IS THE INTERNAL ADMIN PAGE!!!</p>
-          <a href="#" class="get-started-btn">Get Started Today</a>
-        </div>
+        <img
+                src="../Assets/images/Drone.jpg"
+                alt="Book 1"
+                class="w-50"
+              />
+              <br/><br/>
+        <p>Get books delivered to your home in 15 mins with Speedy Drone Delivery</p>
+        
       </div>
       <div class="book-slider">
         <div id="carouselExample" class="carousel slide" data-ride="carousel">
@@ -114,8 +113,6 @@
 fetchAllBooks()
 </script>
   
-<%- include partials/bottom_nav.ejs %>  
-
 <%- include partials/footer.ejs %>
   
 

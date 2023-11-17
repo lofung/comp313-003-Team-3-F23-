@@ -1,12 +1,9 @@
-
-const contactsModel = require('../models/contacts.js');
-
 var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('homepage', { title: 'Homepage', user: req.user});
+  res.render('homepage', { title: 'BooksOnFly', user: req.user});
 });
 
 router.get('/login', checkNotAuthenticated, function(req, res, next) {
@@ -23,10 +20,6 @@ router.get('/feedback', function(req, res, next) {
 });
 
 
-/* GET home page. */
-router.get('/home', function(req, res, next) {
-  res.render('homepage', { title: 'Homepage', user: req.user});
-});
 
 /* GET Borrow page. */
 router.get('/borrow', checkAuthenticated, function(req, res, next) {

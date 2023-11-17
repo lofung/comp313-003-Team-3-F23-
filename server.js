@@ -83,6 +83,9 @@ function onError(error) {
  */
 
 function onListening() {
+  
+  console.log(`----Connected to http://localhost:${port}`)
+
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr

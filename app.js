@@ -22,7 +22,7 @@ let openRouter = require('./routes/open');
 
 let app = express();
 
-mongoose.connect("mongodb+srv://" + process.env.mongodbuser + ":" + process.env.mongodbpassword + "@clustermain.ga01lsq.mongodb.net/centennial_project1?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://" + process.env.mongodbuser + ":" + process.env.mongodbpassword + "@dronelibrarycluster0.qkn9o64.mongodb.net/DroneLibraryDB?retryWrites=true&w=majority", {
   useNewUrlParser: true, 
   useUnifiedTopology: true
 }, (err) => {
@@ -30,6 +30,7 @@ mongoose.connect("mongodb+srv://" + process.env.mongodbuser + ":" + process.env.
     console.error(err)
   } else {
     console.log("----mongoDB successfully connected.----")
+    
   }
 })
 
@@ -59,7 +60,8 @@ app.use(flash())
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/closed', indexRouter);
+app.use('/', indexRouter);
+
 app.use('/users', usersRouter);
 app.use('/books', bookRouter);
 app.use('/', openRouter)
