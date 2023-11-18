@@ -1,0 +1,91 @@
+<%- include partials/navbar.ejs %>
+
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <form action="/admin/update-book/<%=book._id%>" method="post" id="bookform" enctype="multipart/form-data"> 
+      <h2>Update Book Form</h2>
+      <!-- https://www.100forms.com/sources/ready-forms/contact-us-form/ -->
+      <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
+        <tr>
+          <td>
+            <label for="name_box">Book Name*:</label>
+          </td>
+          <td>
+            <input name="bookTitle" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;"  value="<%= book.bookTitle %>"/>
+          </td>
+        </tr>
+
+        <tr>
+          <td><label for="formFile" class="form-label">Upload Book Image</label></td>
+          <td>
+
+            <div class="container mt-5">
+             
+              <div class="mb-3">
+                  
+                  <input 
+                      name = "image"
+                      class="form-control" 
+                      type="file" 
+                      id="formFile" 
+                      multiple
+                      accept="image/*"
+                      onchange="handleFileChange(event)"
+                  />
+                  <br />
+                  <img 
+                      id="imagePreview" 
+                      class="img-thumbnail" 
+                      style="max-width: 100px; max-height: 100px; object-fit: contain;" 
+                      src="/<%=book.image%>"
+                  />
+                  <input type="hidden" name="old_image" value="<%=book.image%>"/>
+              </div>
+          
+      </div>
+          </td>
+          
+        </tr>
+
+
+        <tr>
+          <td>
+            
+
+
+
+            * - required fields
+          </td>
+          <td>
+            <div style="float:right"></div>
+            <button type="submit" class="btn btn-primary">Update Book</button>
+            <!-- button name="Check input" id="check" value="Check input" onClick="checkInput(e)">Check Inputs</button -->
+            <a href="/admin/bookmgmt" class="btn btn-danger">Cancel</a>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+  </main>
+
+
+  <script>
+    function handleFileChange(event) {
+        var fileInput = event.target;
+        var imagePreview = document.getElementById('imagePreview');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.src = "";
+        }
+    }
+</script>
+
+  <%- include partials/footer.ejs %>

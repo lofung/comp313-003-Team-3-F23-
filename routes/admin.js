@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Book = require('../models/book')
 const multer = require('multer')
+const fs = require('fs')
 
 //image upload
 const upload = multer({ dest: './BookImagesUploaded/' })
@@ -13,7 +14,7 @@ router.get('/bookmgmt', function(req, res, next) {
   const message = req.query.message || "";
 
 
-  Book.find().exec((err, books) => {
+  Book.find().sort({ bookTitle: 1 }).exec((err, books) => {
     if (err) {
       res.json({message: err.message});
     } else {
@@ -63,9 +64,60 @@ router.post('/create-book', upload.single('image'), function(req, res, next) {
 
 
 
+/* GET Update Book Form page. */
+router.get('/update-book/:id', function(req, res, next) {
+
+  let id = req.params.id;
+  Book.findById(id, (err, book) => {
+    if(err) {
+      res.redirect('/admin/bookmgmt?Book%20Update%20Error');
+    } else{
+      if(book == null) {
+        res.redirect("/admin/bookmgmt?Book%20Not%20Found");
+      } else {
+        res.render('Admin/editBook', { title: 'UpdateBook', titleBar: 'Update Book Record', user: req.user,book});
+      }
+    }
+  })
+
+
+})
+
+/* POST Update Book page. */
+router.post('/update-book/:id', upload.single('image'), function(req, res, next) {
 
 
 
+  let id = req.params.id;
+  
+
+  //Sanjay, replace old image if new image uploaded.
+  let fileName = 'noImage.png' //default placeholder image
+  if (req.file) {
+    fileName = req.file.filename;
+    try {
+      fs.unlinkSync("./BookImagesUploaded/" + req.body.old_image);
+    } catch(err){
+      console.log(err);
+    }
+  } else {
+    fileName = req.body.old_image;
+  }
+
+
+  Book.findByIdAndUpdate(id, {
+    bookTitle: req.body.bookTitle,
+    image: fileName}, (err, book) => {
+      
+    if(err) {
+      res.redirect('/admin/bookmgmt?Book%20Update%20Error');
+    } else{
+      res.redirect("/admin/bookmgmt?message=Book%20Record%20Updated");
+    }
+  })
+
+
+})
 
 
 

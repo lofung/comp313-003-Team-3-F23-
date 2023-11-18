@@ -1,101 +1,120 @@
 <%- include partials/navbar.ejs %>
-    <!-- change all time git -->
-    <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
+  <!-- change all time git -->
+  <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
 
 
 
   <!-- Main Content -->
   <div class="main">
-  
-  <main class="container">
 
-    <% if (message) { %>
+    <main class="container">
 
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong><%= message %></strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>    
-      
-    <% } %>
-    
-      <!-- copy from booklist, need clean up code -->
-    <div class="jumbotron">
-      <h2>Available Books</h2>
-      <br/>
+      <% if (message) { %>
 
-      <a href="/admin/create-book" class="btn btn-success " style="font-size: 1.3em;"><i  class="bi bi-database-add"></i> Create New Book Record</a>
-      
-      <br/><br/>
-      <div class="container">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>
+            <%= message %>
+          </strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-        <table class="table" >
-          <thead class="thead-dark">
-            <tr>
-              <th>Book Title</th>
-              <th>Cover</th>
-              <th>Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <% books.forEach((book, index) => { %>
-              <tr>
-                <td>book.bookTitle</td>
-                <td>
+        <% } %>
 
-                  <img 
-            id="bookImage" 
-            class="card-img-top" 
-            style="width: 20%; float: left; margin-right: 20px; max-height: 200px; min-height: 65px; object-fit: contain;" 
-            src="/<%= book.image %>" 
-            onerror="handleImageError()"
-        />
+          <!-- copy from booklist, need clean up code -->
+          <div class="jumbotron">
+            <h2>Available Books</h2>
+            <br />
 
+            <a href="/admin/create-book" class="btn btn-success " style="font-size: 1.3em;"><i
+                class="bi bi-database-add"></i> Create New Book Record</a>
 
-                </td>
-                <td>john@example.com</td>
-              </tr>
-            
-            <% }) %>
+            <br /><br />
 
-          </tbody>
-        </table>
+            <p><b>Search the table for Book-Titles, or ISBN:</b></p>
+            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <br />
+
+            <div class="container">
+
+              <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Book Title</th>
+                    <th>Cover</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="myTable">
+
+                  <% books.forEach((book, index)=> { %>
+                    <tr>
+                      <td>
+                        <%= book.bookTitle %>
+                      </td>
+                      <td>
+
+                        <img id="bookImage<%=index%>" class="card-img-top"
+                          style="width: 20%; float: left; margin-right: 20px; max-height: 200px; min-height: 65px; object-fit: contain;"
+                          src="/<%=book.image%>" onerror="handleImageError(<%=index%>)" />
 
 
-<br/><br/><br/>
+                      </td>
+                      <td>john@example.com</td>
+                      <td><a class="btn btn-warning" style="font-size: 1.5em; float: left" href="/admin/update-book/<%= book._id %>"><i class="bi bi-pencil-square "></i></a> <a class="btn btn-danger" style="font-size: 1.5em;float: right"href="/admin/delete-book/<%= book._id %>"><i class="bi bi-trash3-fill"></i></a></td>
+                    </tr>
 
-        <table id="bookTable">
-          <tr>
-          <td style="min-width: 100px">ID</td>
-          <td style="min-width: 100px">ISBN</td>
-          <td style="min-width: 100px">Book name</td>
-          <td style="min-width: 100px">Author Name</td>
-          <td style="min-width: 100px">Availability</td>
-        </tr>
-          <tr>
-            <td>loading....</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </main>
-</div>
+                    <% }) %>
+
+                </tbody>
+              </table>
 
 
+              <br /><br /><br />
 
-<script>
-  function handleImageError() {
-      var bookImage = document.getElementById('bookImage');
+              <table id="bookTable">
+                <tr>
+                  <td style="min-width: 100px">ID</td>
+                  <td style="min-width: 100px">ISBN</td>
+                  <td style="min-width: 100px">Book name</td>
+                  <td style="min-width: 100px">Author Name</td>
+                  <td style="min-width: 100px">Availability</td>
+                </tr>
+                <tr>
+                  <td>loading....</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+    </main>
+  </div>
+
+
+
+  <script>
+    function handleImageError(index) {
+      var bookImage = document.getElementById('bookImage'+ index);
       bookImage.onerror = null; // prevents looping
-      bookImage.src = "/BookImagesUploaded/noImage.png";
-  }
-</script>
-  
-<%- include partials/footer.ejs %>
-  
+      bookImage.src = "/noImage.png";
+    }
+
+
+  </script>
 
 
 
+  <script>
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
 
+  </script>
+
+  <%- include partials/footer.ejs %>
