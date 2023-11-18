@@ -1,5 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const Book = require('../models/book')
+const multer = require('multer')
+
+//image upload
+const upload = multer({ dest: './BookImagesUploaded/' })
 
 /* GET Book management page. */
 router.get('/bookmgmt', function(req, res, next) {
@@ -10,6 +15,48 @@ router.get('/bookmgmt', function(req, res, next) {
 router.get('/create-book', function(req, res, next) {
   res.render('Admin/addbookform', { title: 'CreateBook', titleBar: 'Create New Book Record', user: req.user});
 });
+
+
+/* POST TO INSERT Create Book page. */
+router.post('/create-book', upload.single('image'), function(req, res, next) {
+
+  let fileName = 'noImage.png' //default placeholder image
+  if (req.file) {
+    fileName = req.file.filename
+  }
+
+  const book = new Book({
+    bookTitle: req.body.bookTitle,
+    image: fileName
+    
+
+  });
+  book.save((err)=>{
+    if(err){
+      res.json({message: err.message, type: 'danger'});
+    }else {
+      req.session.message = {
+        type: "success",
+        message: "Book added succesfully!"
+      };
+      res.redirect("/admin/bookmgmt");
+    }
+  })
+  //res.render('Admin/addbookform', { title: 'CreateBook', titleBar: 'Create New Book Record', user: req.user});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* secured API for add book */

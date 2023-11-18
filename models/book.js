@@ -1,49 +1,18 @@
 const mongoose = require("mongoose");
 
 const bookSchema = new mongoose.Schema({
-    id:{
-        type:Number,
-        unique: true,
-        min: 1,
-        required: true,
-        default: new Date().getTime()
-    },
-    name: {
+   
+    bookTitle: {
         type: String,
         required: true,
     },
-    borrowedBy: {
-        type: String
-    },
-    expiryDate: {
-        type: Date,
-        default: new Date().toISOString().split("T")[0] 
-    },
-    reservation: {
-        type: [String]
-    }, 
-    pastBorrowers: {
-        type: [String]
-    },
-    comments :{
-        type: Array,
-        default: []
-    },
-    bookStatus: {
+    image: {
         type: String,
-        default: 'available'
-    },
-    upvotes: {
-        type: Number,
-        default: 0
-    },
-    downvotes: {
-        type: Number,
-        default: 0
+        require: false
     }
-    }, {
-        collection: 'book'
-});
+   
+  
+    });
 
 const Book = mongoose.model("book", bookSchema);
 

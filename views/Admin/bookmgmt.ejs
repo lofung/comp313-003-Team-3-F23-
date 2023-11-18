@@ -6,14 +6,38 @@
   <div class="main">
   
   <main class="container">
-    <h2>Available Books</h2>
+    
       <!-- copy from booklist, need clean up code -->
     <div class="jumbotron">
-      <h1 class="display-4">Book listing</h1>
+      <h2>Available Books</h2>
       <br/>
+
       <a href="/admin/create-book" class="btn btn-success " style="font-size: 1.3em;"><i  class="bi bi-database-add"></i> Create New Book Record</a>
+      
       <br/><br/>
-      <div style="display: flex">
+      <div class="container">
+
+        <table class="table" >
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Lastname</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John</td>
+              <td>Doe</td>
+              <td>john@example.com</td>
+            </tr>
+
+          </tbody>
+        </table>
+
+
+<br/><br/><br/>
+
         <table id="bookTable">
           <tr>
           <td style="min-width: 100px">ID</td>

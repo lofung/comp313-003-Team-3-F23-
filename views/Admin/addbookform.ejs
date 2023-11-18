@@ -4,27 +4,70 @@
   <!-- Main Content -->
   <main class="container">
 
-    <form id="form">
+    <form action="/admin/create-book" method="post" id="bookform" enctype="multipart/form-data"> 
       <h2>Add book form</h2>
       <!-- https://www.100forms.com/sources/ready-forms/contact-us-form/ -->
       <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
         <tr>
           <td>
-            <label for="name">Book Name*:</label>
+            <label for="name_box">Book Name*:</label>
           </td>
           <td>
-            <input name="name" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
+            <input name="bookTitle" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
           </td>
         </tr>
+
+        <tr>
+          <td><label for="formFile" class="form-label">Upload Book Image</label></td>
+          <td>
+
+            <div class="container mt-5">
+             
+              <div class="mb-3">
+                  
+                  <input 
+                      name = "image"
+                      class="form-control" 
+                      type="file" 
+                      id="formFile" 
+                      multiple
+                      accept="image/*"
+                      onchange="handleFileChange(event)"
+                  />
+                  <br />
+                  <img 
+                      id="imagePreview" 
+                      class="img-thumbnail" 
+                      style="max-width: 100px; max-height: 100px; object-fit: contain;" 
+                      src=""
+                  />
+              </div>
+          
+      </div>
+          </td>
+          
+        </tr>
+
+
         <tr>
           <td>
+            
+
+
+          
+          
+
+
+
+
+
             * - required fields
           </td>
           <td>
             <div style="float:right"></div>
-            <button id="submit" onClick="submit">Submit Edit</button>
+            <button type="submit" class="btn btn-primary">Create Book</button>
             <!-- button name="Check input" id="check" value="Check input" onClick="checkInput(e)">Check Inputs</button -->
-            <a href="/closed/business" style="text-decoration: none">Cancel</a>
+            <a href="/admin/bookmgmt" class="btn btn-danger">Cancel</a>
           </td>
         </tr>
       </table>
@@ -34,20 +77,20 @@
 
 
   <script>
-    async function submit(e) {
-      e.preventDefault();
-      let name = document.getElementById("name_box").value
-      //console.log({id, name, number, email})
-      //alert("OK")
-      await fetch(
-        `/books/v1/new?name=${name}`,
-        { method: 'POST' }
-      )
-      window.location.href = "/booklist"
-    }
+    function handleFileChange(event) {
+        var fileInput = event.target;
+        var imagePreview = document.getElementById('imagePreview');
 
-    //fetchContact(window.location.pathname.split("/").pop())
-    document.getElementById("submit").addEventListener("click", submit);
-  </script>
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            imagePreview.src = "";
+        }
+    }
+</script>
 
   <%- include partials/footer.ejs %>
