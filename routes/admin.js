@@ -119,39 +119,37 @@ router.post('/update-book/:id', upload.single('image'), function(req, res, next)
 
 })
 
+/* POST Update Book page. */
+router.get('/delete-book/:id', function(req, res, next) {
+
+  let id = req.params.id;
+
+  Book.findByIdAndRemove(id, (err, book) => {
+      
+    if(book.image != '' && book.image != 'noImage.png') {
+      try {
+        fs.unlinkSync("./BookImagesUploaded/" + book.image);
+      } catch(err){
+        console.log(err);
+      }
+      
+    } 
+
+    if(err) {
+      res.redirect('/admin/bookmgmt?Book%20Delete%20Error');
+    } else{
+      res.redirect("/admin/bookmgmt?message=Book%20Record%20Deleted");
+    }
+
+
+  })
+
+
+})
 
 
 
 
-
-
-
-
-/* secured API for add book */
-router.post('/v1/new',/* checkAuthenticated,*/ async function(req, res, next) {
-  let id = 0
-  if (req.params.id == "" || req.params.id == null){
-      id = new Date().getTime().toString()
-
-  } else {
-      id = req.params.id
-  }
-  console.log(id)
-  const name = req.query.name
-  const newBook = new booksModel({id, name})
-
-
-  try {
-      const result = await newBook.save()
-      //console.log(result.id)
-        
-      res.redirect(303, '/booklist')
-    } catch (e){
-      console.error(e)
-    }  
-
-
-});
 
 
 

@@ -63,7 +63,42 @@
 
                       </td>
                       <td>john@example.com</td>
-                      <td><a class="btn btn-warning" style="font-size: 1.5em; float: left" href="/admin/update-book/<%= book._id %>"><i class="bi bi-pencil-square "></i></a> <a class="btn btn-danger" style="font-size: 1.5em;float: right"href="/admin/delete-book/<%= book._id %>"><i class="bi bi-trash3-fill"></i></a></td>
+                      <td>
+
+                        <a class="btn btn-warning" style="font-size: 1.5em; float: left"
+                          href="/admin/update-book/<%= book._id %>"><i class="bi bi-pencil-square "></i></a>
+
+
+                        <!-- Button trigger modal -->
+                        <button style="font-size: 1.5em; float: right" type="button" class="btn btn-danger"
+                          data-toggle="modal" data-target="#exampleModal">
+                          <i class="bi bi-trash3-fill"></i>
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                          aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Delete Book Record?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                Are you sure you wish to Delete this book with title: "<%=book.bookTitle%>" ?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-danger" href="/admin/delete-book/<%= book._id %>"><i
+                                    class="bi bi-trash3-fill"></i>Delete</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </td>
                     </tr>
 
                     <% }) %>
@@ -72,20 +107,7 @@
               </table>
 
 
-              <br /><br /><br />
 
-              <table id="bookTable">
-                <tr>
-                  <td style="min-width: 100px">ID</td>
-                  <td style="min-width: 100px">ISBN</td>
-                  <td style="min-width: 100px">Book name</td>
-                  <td style="min-width: 100px">Author Name</td>
-                  <td style="min-width: 100px">Availability</td>
-                </tr>
-                <tr>
-                  <td>loading....</td>
-                </tr>
-              </table>
             </div>
           </div>
     </main>
@@ -95,7 +117,7 @@
 
   <script>
     function handleImageError(index) {
-      var bookImage = document.getElementById('bookImage'+ index);
+      var bookImage = document.getElementById('bookImage' + index);
       bookImage.onerror = null; // prevents looping
       bookImage.src = "/noImage.png";
     }
