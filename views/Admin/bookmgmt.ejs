@@ -2,10 +2,23 @@
     <!-- change all time git -->
     <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
 
+
+
   <!-- Main Content -->
   <div class="main">
   
   <main class="container">
+
+    <% if (message) { %>
+
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong><%= message %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>    
+      
+    <% } %>
     
       <!-- copy from booklist, need clean up code -->
     <div class="jumbotron">
@@ -20,17 +33,32 @@
         <table class="table" >
           <thead class="thead-dark">
             <tr>
-              <th>Name</th>
-              <th>Lastname</th>
+              <th>Book Title</th>
+              <th>Cover</th>
               <th>Email</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-            </tr>
+            
+            <% books.forEach((book, index) => { %>
+              <tr>
+                <td>book.bookTitle</td>
+                <td>
+
+                  <img 
+            id="bookImage" 
+            class="card-img-top" 
+            style="width: 20%; float: left; margin-right: 20px; max-height: 200px; min-height: 65px; object-fit: contain;" 
+            src="/<%= book.image %>" 
+            onerror="handleImageError()"
+        />
+
+
+                </td>
+                <td>john@example.com</td>
+              </tr>
+            
+            <% }) %>
 
           </tbody>
         </table>
@@ -58,43 +86,11 @@
 
 
 <script>
-  async function fetchAllBooks(){
-    try {
-        let res = await fetch('/books/v1/getall')
-        let answer = await res.json()
-        //console.log(answer)
-        let htmlAttachment = `<tr>
-              <td style="min-width:200px;">
-                id
-              </td>
-              <td style="min-width:200px;">
-                Title
-              </td>
-            </tr>`
-        //console.log(answer)
-        answer.forEach(item => {
-            let htmlSegment = `
-            <tr>
-                <td>
-                    ${item.id}
-                </td>
-                <td>
-                    ${item.name}
-                </td>
-            </tr>
-            `
-            htmlAttachment = htmlAttachment + htmlSegment
-        })
-
-
-        document.getElementById("bookTable").innerHTML = htmlAttachment
-    } catch (err) {
-        console.log(err)
-    }
-
-}
-
-fetchAllBooks()
+  function handleImageError() {
+      var bookImage = document.getElementById('bookImage');
+      bookImage.onerror = null; // prevents looping
+      bookImage.src = "/BookImagesUploaded/noImage.png";
+  }
 </script>
   
 <%- include partials/footer.ejs %>

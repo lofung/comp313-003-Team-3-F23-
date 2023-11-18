@@ -8,7 +8,20 @@ const upload = multer({ dest: './BookImagesUploaded/' })
 
 /* GET Book management page. */
 router.get('/bookmgmt', function(req, res, next) {
-  res.render('Admin/bookmgmt', { title: 'AdminBooksOnFly', titleBar: 'Book Managment', user: req.user});
+  //res.locals.message = "test";
+  // Access the query parameter and pass it as a local variable
+  const message = req.query.message || "";
+
+
+  Book.find().exec((err, books) => {
+    if (err) {
+      res.json({message: err.message});
+    } else {
+      res.render('Admin/bookmgmt', { title: 'AdminBooksOnFly', titleBar: 'Book Managment', user: req.user,message, books: books});
+    }
+  });
+
+  
 });
 
 /* GET Create Book page. */
@@ -39,7 +52,10 @@ router.post('/create-book', upload.single('image'), function(req, res, next) {
         type: "success",
         message: "Book added succesfully!"
       };
-      res.redirect("/admin/bookmgmt");
+      
+      //res.locals.message = "Book added succesfully!";
+
+      res.redirect("/admin/bookmgmt?message=Book%20Record%20Created");
     }
   })
   //res.render('Admin/addbookform', { title: 'CreateBook', titleBar: 'Create New Book Record', user: req.user});
