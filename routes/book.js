@@ -21,31 +21,7 @@ router.get('/v1/getall', async function(req, res, next) {
   res.json(allBooks)
 });
 
-/* secured API for add book */
-router.post('/v1/new', checkAuthenticated, async function(req, res, next) {
-    let id = 0
-    if (req.params.id == "" || req.params.id == null){
-        id = new Date().getTime().toString()
 
-    } else {
-        id = req.params.id
-    }
-    console.log(id)
-    const name = req.query.name
-    const newBook = new booksModel({id, name})
-
-
-    try {
-        const result = await newBook.save()
-        //console.log(result.id)
-          
-        res.redirect(303, '/booklist')
-      } catch (e){
-        console.error(e)
-      }  
-  
-  
-  });
   /*Search*/
 
 /* secured API for delete a book */

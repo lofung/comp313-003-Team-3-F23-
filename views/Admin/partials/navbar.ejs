@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <!-- CSS Section -->
+  <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel='stylesheet' href='/Content/app.css' />
+  <link rel="stylesheet" href="/Content/styles.css" />
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+
+</head>
+<body><!-- -->
+
+  
+<!-- Main Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-darkblue">
+  <% if (typeof user === 'undefined') { %>
+    <a class="navbar-brand" href="/" style="border:3px solid white">Library</a>
+  <% } else  { %>
+    <a class="navbar-brand" href="/"> Welcome, <%= user.name %>!</a>
+  <% } %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+
+      <% if (title == "Home"){ %>
+      <li class="nav-item active">
+      <% } else  { %>
+      <li class="nav-item">
+      <% } %>
+        <a class="nav-link" href="/home"><i class="fa-solid fa-house"></i> Home </a>
+      </li>
+
+      <% if (title == "Book List") { %>
+        <li class="nav-item active">
+        <% } else  { %>
+        <li class="nav-item">
+        <% } %>
+          <a class="nav-link" href="/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
+        </li>
+
+      <% if (title == "borrow") { %>
+      <li class="nav-item active">
+      <% } else  { %>
+      <li class="nav-item">
+      <% } %>
+        <a class="nav-link" href="/borrow"><i class="fa-regular fa-id-card"></i> Borrow </a>
+      </li>
+
+      <% if (title == "Return") { %>
+        <li class="nav-item active">
+        <% } else  { %>
+        <li class="nav-item">
+        <% } %>
+          <a class="nav-link" href="/return"><i class="fa-solid fa-toolbox"></i> Return </a>
+        </li>
+
+
+      <% if (typeof user === 'undefined') { %>
+        <% if (title == "Register") { %>
+          <li class="nav-item active">
+          <% } else  { %>
+          <li class="nav-item">
+          <% } %>
+            <a class="nav-link" href="/register"><i class="fa-solid fa-toolbox"></i> Register </a>
+          </li>
+
+        <% if (title == "Login") { %>
+          <li class="nav-item active">
+          <% } else  { %>
+          <li class="nav-item">
+          <% } %>
+            <a class="nav-link" href="/login"><i class="fa-sharp fa-solid fa-right-to-bracket"></i> Log in </a>
+          </li>
+
+      <% } else  { %>
+
+        <% if (title == "Logout") { %>
+          <li class="nav-item active">
+          <% } else  { %>
+          <li class="nav-item">
+          <% } %>
+          <form id='logoutForm' action="/users/v1/logout?_method=DELETE" method="POST">
+            <a class="nav-link" href="javascript:;" onclick="document.getElementById('logoutForm').submit();"><i class="fa-sharp fa-solid fa-right-to-bracket"></i> Logout </a>
+            <!--a class="nav-link" href="/users/v1/logout?_method=DELETE"><i class="fa-sharp fa-solid fa-right-to-bracket"></i> Logout </a-->
+          </form>
+          </li>
+      <% } %>
+
+
+      
+
+
+  </div>
+</nav>
+
+<div class="jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4"><%= titleBar %></h1>    
+    <hr/>
+  </div>
+ 
+</div>

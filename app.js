@@ -15,6 +15,8 @@ const methodOverride = require('method-override')
 
 
 let indexRouter = require('./routes/index');
+let adminRouter = require('./routes/admin');
+
 let usersRouter = require('./routes/users');
 let bookRouter = require('./routes/book');
 let openRouter = require('./routes/open');
@@ -61,6 +63,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.use('/', indexRouter);
+app.use('/admin', adminRouter);
 
 app.use('/users', usersRouter);
 app.use('/books', bookRouter);
