@@ -41,10 +41,6 @@ router.get('/book-details/:id', function(req, res, next) {
 
 
 
-
-
-
-
 router.get('/login', checkNotAuthenticated, function(req, res, next) {
   res.render('login', { title: 'Login', user: req.user});
 });
@@ -52,6 +48,40 @@ router.get('/login', checkNotAuthenticated, function(req, res, next) {
 router.get('/register', checkNotAuthenticated, function(req, res, next) {
   res.render('register', { title: 'Register', user: req.user});
 });
+
+
+
+
+
+/* POST TO Insert Comments of books*/
+router.post('/comment/:id',checkAuthenticated, function(req, res, next) {
+
+  console.log(req.body.comment);
+  var id = req.params.id
+ 
+  Book.findByIdAndUpdate(id, 
+    {$push: {comments: { comment: req.body.comment, user_id: req.user._id, userName: req.user.name, date: new Date()} }}, (err, book) => {
+      
+    if(err) {
+      res.json({error:"error posting comment"});
+    } else{
+      res.redirect("/book-details/"+ id);
+    }
+  })
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
 
 
 function checkAuthenticated(req, res, next) {

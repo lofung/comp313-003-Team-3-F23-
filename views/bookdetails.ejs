@@ -79,8 +79,9 @@
                 </p>
         </div>
       </div>
-      
-      <div style="clear:both"><br /><hr>
+
+      <div style="clear:both"><br />
+        <hr>
         <p "><i style=" font-size: 3em;color:blue" class="bi bi-robot"></i> <b>Artificial Intelligence comment
             Analysis</b></p>
 
@@ -98,9 +99,44 @@
       <hr>
       <br>
       <h1>Comments</h1>
-
       <hr>
 
+
+      <form action="/comment/<%=book._id%>" method="post" id="commentForm" style="padding: 30px;"
+        class="mx-auto d-block border border-2">
+
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1" style="font-size: 1.5em;"><b>Review this book</b></label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit" <% if (typeof user==='undefined' ) { %>disabled<% } %>>Review
+            Book</button>
+        <% if (typeof user==='undefined' ) { %>
+          <p style="color: red;">Please log in to post a comment</p>
+          <% } %>
+      </form>
+
+      <br><br>
+      <h3>All Comments</h3>
+      <div style="padding: 30px;" class="mx-auto d-block border border-2">
+        <% book.comments.forEach(function(comment,index) { %>
+
+          <div class="form-group">
+            <p ><b>
+                <%= comment.userName %> - 
+              </b>
+              <%=new Date(comment.date).toLocaleString("en-CA")%>
+            </p>
+            <div>
+              <div style="border: 1px solid gray;padding: 1em;">
+                <p>
+                  <%= comment.comment %>
+                </p>
+              </div>
+            </div><hr>
+            <br>
+            <% }); %>
+          </div>
     </main>
 
   </div>
