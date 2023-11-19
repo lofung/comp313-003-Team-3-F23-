@@ -1,9 +1,17 @@
 var express = require('express');
 var router = express.Router();
+const Book = require('../models/book')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('homepage', { title: 'BooksOnFly', user: req.user});
+  Book.find().sort({ title: 1 , genre: 1}).exec((err, books) => {
+    if (err) {
+      res.json({message: err.message});
+    } else {
+      res.render('homepage', { title: 'BooksOnFly', user: req.user, books: books});      
+    }
+  });
+  
 });
 
 router.get('/login', checkNotAuthenticated, function(req, res, next) {
