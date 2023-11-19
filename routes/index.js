@@ -53,6 +53,25 @@ router.get('/register', checkNotAuthenticated, function(req, res, next) {
   res.render('register', { title: 'Register', user: req.user});
 });
 
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  res.locals.message = req.message
+  res.redirect('/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    res.redirect('/')
+  }
+  return next()
+}
+
+
+
+
 /* GET feedback page. */
 router.get('/feedback', function(req, res, next) {
   res.render('feedback', { title: 'Feedback', user: req.user, success: true});
@@ -162,19 +181,6 @@ router.post('/editbusinesscontacts/:id', checkAuthenticated, async function(req,
 });
 
 
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.locals.message = req.message
-  res.redirect('/closed/login')
-}
 
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    res.redirect('/closed/')
-  }
-  return next()
-}
 
 module.exports = router;

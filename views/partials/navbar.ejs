@@ -19,6 +19,8 @@
   
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-darkblue">
+  <img alt="logo" src="../../Assets/images/dronelogo.avif" 
+        style="width: 60px;border:2px solid gray;margin-right: 30px;">
   <% if (typeof user === 'undefined') { %>
     <a class="navbar-brand" href="/" style="border:3px solid white">Library</a>
   <% } else  { %>
@@ -31,20 +33,20 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
 
-      <% if (title == "Home"){ %>
+      <% if (title == "BooksOnFly"){ %>
       <li class="nav-item active">
       <% } else  { %>
       <li class="nav-item">
       <% } %>
-        <a class="nav-link" href="/home"><i class="fa-solid fa-house"></i> Home </a>
+        <a class="nav-link" href="/"><i class="fa-solid fa-house"></i> Home </a>
       </li>
 
-      <% if (title == "Book List") { %>
+      <% if (title == "MyBooks") { %>
         <li class="nav-item active">
         <% } else  { %>
         <li class="nav-item">
         <% } %>
-          <a class="nav-link" href="/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
+          <a class="nav-link" href="/mybooks"><i class="fa-solid fa-toolbox"></i> MyBooks </a>
         </li>
 
       <% if (title == "borrow") { %>
