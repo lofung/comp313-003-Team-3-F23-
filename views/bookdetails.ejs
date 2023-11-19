@@ -1,0 +1,69 @@
+<%- include partials/navbar.ejs %>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <main class="container">
+
+      <div style="margin: 20px;">
+        <h2>Book Details</h2>
+        <br />
+        <img
+          style="width: 35%; border-radius: 50px; max-Height: 500px; object-fit: contain;  float: left;background-color: #a6a8e147;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+          src="/<%=book.image%>" onerror="this.onerror=null;this.src='/noImage.png';" alt="book cover" />
+        <div style="margin-left: 30px; float: left; width: 45%;">
+          <h1 style="margin-bottom: 0px;">
+            <%= book.title %>
+          </h1>
+          <i>by <%= book.author %></i>
+          <br />
+          <br />
+          <p><b>Genre:</b>
+            <%= book.genre %>
+          </p>
+          <hr />
+          <b>Description:</b>
+          <p>
+            <%= book.description %>
+          </p>
+          <hr />
+
+          <% if (book.copiesAvailable <=0) { %>
+            <button class="btn btn-danger">NO Copies currently Available</button>
+            <% } else { %>
+
+              <button class="btn btn-primary" onclick="navigate('/borrow/<%= book._id %>')">Borrow</button>
+
+
+              <% } %>
+                <br /><br />
+
+
+                <p>
+                  <b>Copies Available:</b>
+                  <%= book.copiesAvailable %> <br /><br />
+                    <b>ISBN:</b>
+                    <%= book.isbn %> <br />
+                      <b>Published:</b>
+                      <%= book.publishedDate? new Date(book.publishedDate).toLocaleString("en-CA",{year: 'numeric'
+                        ,month: 'long' , day: 'numeric' }) : 'unspecified' %> <br />
+                        <b>Weight:</b>
+                        <%= book.weight %> lbs <br />
+                </p>
+        </div>
+      </div>
+
+
+
+
+
+
+    </main>
+
+  </div>
+
+
+
+
+
+  <%- include partials/footer.ejs %>

@@ -29,7 +29,7 @@ const bookSchema = new mongoose.Schema({
     },
     weight: Number,
     comments :{
-        type: [String],
+        type: Array,
         default: []
     },
     upvotes: {

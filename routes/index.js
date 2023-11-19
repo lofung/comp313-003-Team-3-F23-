@@ -14,6 +14,36 @@ router.get('/', function(req, res, next) {
   
 });
 
+
+
+
+/* GET Book Details page. */
+router.get('/book-details/:id', function(req, res, next) {
+
+  let id = req.params.id;
+  Book.findById(id, (err, book) => {
+    if(err) {
+      alert("Book ERROR")
+    } else{
+      if(book == null) {
+        alert("Book not found ERROR")
+      } else {
+        res.render('bookdetails', { title: 'Bookdetails',  user: req.user,user: req.user, book: book});
+      }
+    }
+  })
+
+
+})
+
+
+
+
+
+
+
+
+
 router.get('/login', checkNotAuthenticated, function(req, res, next) {
   res.render('login', { title: 'Login', user: req.user});
 });
