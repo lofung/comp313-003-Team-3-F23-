@@ -13,14 +13,14 @@ const bookSchema = new mongoose.Schema({
 
     author: {
         type: String,
-        required: true,
+        
     },
     genre: String,
     publishedDate: Date,
-    ISBN: {
+    isbn: {
         type: String,
         /*unique: true,*/
-        required: true,
+        
     },
     description: String,
     copiesAvailable: {

@@ -14,7 +14,7 @@ router.get('/bookmgmt', function(req, res, next) {
   const message = req.query.message || "";
 
 
-  Book.find().sort({ bookTitle: 1 }).exec((err, books) => {
+  Book.find().sort({ title: 1 }).exec((err, books) => {
     if (err) {
       res.json({message: err.message});
     } else {
@@ -40,9 +40,15 @@ router.post('/create-book', upload.single('image'), function(req, res, next) {
   }
 
   const book = new Book({
-    bookTitle: req.body.bookTitle,
-    image: fileName
-    
+    title: req.body.title,
+    image: fileName,
+    author: req.body.author,
+    genre: req.body.genre,
+    publishedDate: req.body.publishedDate,
+    isbn: req.body.isbn,
+    description: req.body.description,
+    copiesAvailable: req.body.copiesAvailable,
+    weight: req.body.weight
 
   });
   book.save((err)=>{
@@ -106,7 +112,7 @@ router.post('/update-book/:id', upload.single('image'), function(req, res, next)
 
 
   Book.findByIdAndUpdate(id, {
-    bookTitle: req.body.bookTitle,
+    title: req.body.title,
     image: fileName}, (err, book) => {
       
     if(err) {
