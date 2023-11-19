@@ -19,7 +19,7 @@ const bookSchema = new mongoose.Schema({
     publishedDate: Date,
     ISBN: {
         type: String,
-        unique: true,
+        /*unique: true,*/
         required: true,
     },
     description: String,
@@ -27,6 +27,7 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         default: 1,
     },
+    weight: Number,
     comments :{
         type: [String],
         default: []
