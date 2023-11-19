@@ -8,9 +8,36 @@
       <div style="margin: 20px;">
         <h2>Book Details</h2>
         <br />
-        <img
-          style="width: 35%; border-radius: 50px; max-Height: 500px; object-fit: contain;  float: left;background-color: #a6a8e147;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
-          src="/<%=book.image%>" onerror="this.onerror=null;this.src='/noImage.png';" alt="book cover" />
+        <div style=" float: left; width: 35%;">
+          <img
+            style="width: 100%; border-radius: 50px; max-height: 500px; object-fit: contain;  background-color: #a6a8e147;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+            src="/<%=book.image%>" onerror="this.onerror=null;this.src='/noImage.png';" alt="book cover" />
+
+          <br><br>
+          <p><b>QR Code for Book Page</b></p>
+          <div id="qrcode-container"></div>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+            integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <script>
+
+            window.onload = function () {
+              const QRContainer = document.getElementById("qrcode-container");
+              QRContainer.innerHTML = "";
+              new QRCode(QRContainer, {
+                text: window.location.href,
+                width: 150,
+                height: 150,
+                colorDark: "purple",
+                colorLight: "yellow",
+              });
+            }
+          </script>
+
+
+        </div>
+
         <div style="margin-left: 30px; float: left; width: 45%;">
           <h1 style="margin-bottom: 0px;">
             <%= book.title %>
@@ -52,10 +79,23 @@
                 </p>
         </div>
       </div>
+      <div style="clear:both">
+        <p "><i style=" font-size: 3em;color:blue" class="bi bi-robot"></i> <b>Artificial Intelligence comment
+            Analysis</b></p>
+
+        <p><i style="font-size: 2.5em;color:green" class="bi bi-hand-thumbs-up-fill"></i> <span
+            style="font-size: 2.5em;">
+            <%=book.upvotes%>
+          </span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <i style="font-size: 2.5em;color:red" class="bi bi-hand-thumbs-down-fill"></i> <span
+            style="font-size: 2.5em;">
+            <%=book.downvotes%>
+          </span>
 
 
 
-
+      </div>
 
 
     </main>

@@ -27,6 +27,7 @@
     "express": "~4.16.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
+    "html5-qrcode": "^2.3.8",
     "http-errors": "~1.6.3",
     "jquery": "^3.5.1",
     "method-override": "^3.0.0",
@@ -36,7 +37,8 @@
     "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "qrcode": "^1.5.3"
   },
   "description": "app for project I library",
   "main": "index.js",

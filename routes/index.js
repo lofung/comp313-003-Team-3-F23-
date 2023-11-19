@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Book = require('../models/book')
 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   Book.find().sort({ title: 1 , genre: 1}).exec((err, books) => {
@@ -28,7 +29,7 @@ router.get('/book-details/:id', function(req, res, next) {
       if(book == null) {
         alert("Book not found ERROR")
       } else {
-        res.render('bookdetails', { title: 'Bookdetails',  user: req.user,user: req.user, book: book});
+        res.render('bookdetails', { title: 'Bookdetails', user: req.user, book: book});
       }
     }
   })
