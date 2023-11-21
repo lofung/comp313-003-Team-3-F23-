@@ -41,6 +41,7 @@
                 .table td {
                   vertical-align: middle;
                 }
+                td, th {text-align: center;}
               </style>
               <table class="table">
                 <thead class="thead-dark">
@@ -58,7 +59,7 @@
 
                   <% books.forEach((book, index)=> { %>
                     <tr>
-                      <td style="text-align:left;">
+                      <td style="text-align:center;">
                         <div style="display: inline-block;text-align: center;">
                           <h6>
                             <%= book.title %>
