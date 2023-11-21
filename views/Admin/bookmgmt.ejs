@@ -37,13 +37,20 @@
             <br />
 
             <div class="container">
-
+              <style>
+                .table td {
+                  vertical-align: middle;
+                }
+              </style>
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th>Book Title</th>
-                    <th>Cover</th>
-                    <th>Email</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Genre</th>
+                    <th>Description</th>
+                    <th>Publish Date</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -51,18 +58,45 @@
 
                   <% books.forEach((book, index)=> { %>
                     <tr>
-                      <td>
-                        <%= book.bookTitle %>
+                      <td style="text-align:left;">
+                        <div style="display: inline-block;text-align: center;">
+                          <h6>
+                            <%= book.title %>
+                          </h6>
+                          <img id="bookImage<%=index%>" class="card-img-top" style="width:60px; object-fit: contain;"
+                            src="/<%=book.image%>" onerror="handleImageError(<%=index%>)" />
+                          <br>
+                          <small><b>Copies: </b>
+                            <%= book.copiesAvailable %>
+                          </small>
+                          <br>
+                          <small><b>Weight: </b>
+                            <%= book.weight %>
+                          </small>
+
+
+                        </div>
                       </td>
                       <td>
-
-                        <img id="bookImage<%=index%>" class="card-img-top"
-                          style="width: 20%; float: left; margin-right: 20px; max-height: 200px; min-height: 65px; object-fit: contain;"
-                          src="/<%=book.image%>" onerror="handleImageError(<%=index%>)" />
-
-
+                        <%= book.author %>
                       </td>
-                      <td>john@example.com</td>
+                      <td>
+                        <%= book.isbn %>
+                      </td>
+                      <td>
+                        <%= book.genre %>
+                      </td>
+                      <td>
+                        <p
+                          style="font-size: 16px;margin:0;max-width: 200px; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
+                          <%= book.description %>
+                        </p>
+                      </td>
+                      <td>
+                        <%= book.publishedDate? new Date(book.publishedDate).toLocaleString("en-CA",{year: 'numeric'
+                          ,month: 'numeric' , day: 'numeric' }) : 'unspecified' %>
+                      </td>
+
                       <td>
 
                         <a class="btn btn-warning" style="font-size: 1.5em; float: left"

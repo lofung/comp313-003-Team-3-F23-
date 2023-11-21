@@ -1,3 +1,8 @@
 node_modules
 .env
 
+# Ignore all files in the BookImagesUploaded folder
+BookImagesUploaded/*
+
+# But include the default noImage.png
+!BookImagesUploaded/noImage.png
