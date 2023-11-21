@@ -106,12 +106,12 @@
 
                         <!-- Button trigger modal -->
                         <button style="font-size: 1.5em; float: right" type="button" class="btn btn-danger"
-                          data-toggle="modal" data-target="#exampleModal">
+                          data-toggle="modal" data-target="#exampleModal<%=index%>">
                           <i class="bi bi-trash3-fill"></i>
                         </button>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        <div class="modal fade" id="exampleModal<%=index%>" tabindex="-1" aria-labelledby="exampleModalLabel"
                           aria-hidden="true">
                           <div class="modal-dialog">
                             <div class="modal-content">
@@ -122,7 +122,7 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-                                Are you sure you wish to Delete this book with title: "<%=book.bookTitle%>" ?
+                                Are you sure you wish to Delete this book with title: <b>"<%=book.title%>"</b> ?
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
