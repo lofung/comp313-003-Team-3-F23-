@@ -172,7 +172,6 @@ router.post('/editbusinesscontacts/:id', checkAuthenticated, async function(req,
         if (err) throw console.error(err)
         console.log({_id, name, number, email} + " object from mongo updated.")
         //Set HTTP method to GET, oTHERWISE WOULD AIM AT DELETE
-        
         res.redirect(303, '/business_open')
       })
     } catch (e){

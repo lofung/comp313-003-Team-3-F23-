@@ -37,12 +37,12 @@ router.get('/home', function(req, res, next) {
 });
 
 /* GET Borrow page. */
-router.get('/borrow', checkAuthenticated, function(req, res, next) {
+router.get('/borrow', checkAuthenticated, checkAdmin, function(req, res, next) {
   res.render('borrow', { title: 'Borrow', user: req.user});
 });
 
 /* GET Return page. */
-router.get('/return', checkAuthenticated, function(req, res, next) {
+router.get('/return', checkAuthenticated, checkAdmin, function(req, res, next) {
   res.render('return', { title: 'Return', user: req.user});
 });
 
@@ -137,6 +137,15 @@ router.post('/editbusinesscontacts/:id', checkAuthenticated, async function(req,
   }
 });
 
+//check if you are admin
+function checkAdmin(req, res, next) {
+  if (req.user.role == "admin") {
+    console.log("admin logged in, you may go")
+    return next()
+  }
+  console.log("not admin, you may not go")
+  res.render('homepage_open', { title: 'Homepage', user: req.user, error_message:"You are not an admin. You may not access restricted page."});
+}
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

@@ -14,6 +14,10 @@
         <h1>Library Book Borrowing and Returning System</h1>
         <p>Explore our collection of books and find your next adventure!</p>
         <div class="get-started">
+          <% if (error_message) { %>
+            <div style="color:#FF0000"><%= error_message %></div>
+          <% } %>
+
           <p>Get Your Library Card Today To Use The Library Features!</p>
           <a href="#" class="get-started-btn">Get Started Today</a>
         </div>
