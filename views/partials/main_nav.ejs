@@ -2,9 +2,9 @@
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-grey">
   <% if (typeof user === 'undefined') { %>
-    <a class="navbar-brand" href="/" style="border:3px solid white">Library</a>
+    <a class="navbar-brand" href="/closed/home" style="border:3px solid white">Library</a>
   <% } else  { %>
-    <a class="navbar-brand" href="/"> Welcome, <%= user.name %>!</a>
+    <a class="navbar-brand" href="/closed/home"> Welcome, <%= user.name %>!</a>
   <% } %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -28,6 +28,14 @@
         <% } %>
           <a class="nav-link" href="/closed/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
         </li>
+
+        <% if (title == "People") { %>
+          <li class="nav-item active">
+          <% } else  { %>
+          <li class="nav-item">
+          <% } %>
+            <a class="nav-link" href="/closed/People"><i class="fa-solid fa-people"></i> People </a>
+          </li>
 
       <% if (title == "borrow") { %>
       <li class="nav-item active">
