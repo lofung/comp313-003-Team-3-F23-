@@ -53,6 +53,21 @@ router.delete('/v1/logout', (req, res, next) => {
   });
 });
   
+/* login for closed admin portals*/
+router.post('/v1closed/login', passport.authenticate('local', {
+  successRedirect:'/closed/business', 
+  failureRedirect:'/closed/login', 
+  failureFlash: true
+  }))
+
+router.delete('/v1closed/logout', (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/closed/login');
+  });
+});
   
 
 

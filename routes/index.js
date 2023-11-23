@@ -110,7 +110,7 @@ router.post('/editbusinesscontacts/:id', checkAuthenticated, async function(req,
       const result = await contact.save()
       //console.log(result.id)
         
-      res.redirect(303, '/business')
+      res.redirect(303, '/closed/business')
     } catch (e){
       console.error(e)
     }  
@@ -121,7 +121,7 @@ router.post('/editbusinesscontacts/:id', checkAuthenticated, async function(req,
         console.log({_id, name, number, email} + " object from mongo updated.")
         //Set HTTP method to GET, oTHERWISE WOULD AIM AT DELETE
         
-        res.redirect(303, '/business')
+        res.redirect(303, '/closed/business')
       })
     } catch (e){
       console.error(e)
