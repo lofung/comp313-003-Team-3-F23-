@@ -39,16 +39,13 @@
                 id
               </td>
               <td style="min-width:200px;">
-                isbn
-              </td>
-              <td style="min-width:200px;">
                 book name
               </td>
-              <td style="min-width:200px;">
-                author name
+              <td style="min-width:100px;">
+                availability
               </td>
               <td style="min-width:200px;">
-                availability
+                expiration date and borrower
               </td>
             </tr>`
         //console.log(answer)
@@ -59,16 +56,13 @@
                     ${item.id}
                 </td>
                 <td>
-                    ${item.isbn}
-                </td>
-                <td>
                     ${item.name}
                 </td>
                 <td>
-                    ${item.author}
+                    ${item.bookStatus}
                 </td>
                 <td>
-                    ${item.availability}
+                    ${item.expiryDate.split("T")[0]} ${item.borrowedBy}
                 </td>
                 <td>
                     <a href="/books/v1/edit/${item.id}" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i></button></a>
