@@ -15,7 +15,7 @@
             <tr>
             <td style="min-width: 100px">ID</td>
             <td style="min-width: 100px">ISBN</td>
-            <td style="min-width: 100px">Book name</td>
+            <td style="min-width: 100px" onclick="">Book name</td>
             <td style="min-width: 100px">Author Name</td>
             <td style="min-width: 100px">Availability</td>
           </tr>
@@ -42,7 +42,7 @@
                 isbn
               </td>
               <td style="min-width:200px;">
-                book name
+                Title
               </td>
               <td style="min-width:200px;">
                 author name
@@ -61,7 +61,7 @@
                 <td>
                     ${item.isbn}
                 </td>
-                <td>
+                <td style="cursor: pointer;" onclick="openBookDetails('${item._id}')">
                     ${item.name}
                 </td>
                 <td>
@@ -81,6 +81,10 @@
     }
 
 }
+
+function openBookDetails(bookId) {
+  // You can use JavaScript to navigate to the book details page, for example:
+  window.location.href = `/bookDetails/${bookId}`;}
 
 fetchAllBooks()
 </script>

@@ -1,0 +1,30 @@
+
+<%- include partials/header_open.ejs %>
+
+<%- include partials/main_nav_open.ejs %>
+  
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Welcome to the <%= title %> page</h1>
+      <h1>Add Comment for "<%= book.name %>"</h1>
+      <form method="POST" action="/bookreturnfb/<%= book._id %>">
+          <input type="hidden" name="bookId" value="<%= book.id %>">
+          <label for="comment">Your Comment:</label>
+          <br>
+          <textarea name="comment" id="comment" rows="5" cols="50" required></textarea>
+          <br>
+          <input type="submit" value="Return Book">
+      </form>
+    </div>
+  </main>
+  
+<%- include partials/bottom_nav_open.ejs %>  
+
+<%- include partials/footer_open.ejs %>
+  
+
+
+
+

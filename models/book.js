@@ -32,6 +32,14 @@ const bookSchema = new mongoose.Schema({
     bookStatus: {
         type: String,
         default: 'available'
+    },
+    upvotes: {
+        type: Number,
+        default: 0
+    },
+    downvotes: {
+        type: Number,
+        default: 0
     }
     }, {
         collection: 'book'
