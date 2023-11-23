@@ -14,7 +14,7 @@
         <h1>Library Book Borrowing and Returning System</h1>
         <p>Explore our collection of books and find your next adventure!</p>
         <div class="get-started">
-          <% if (error_message) { %>
+          <% if (typeof error_message != "undefined" ) { %>
             <div style="color:#FF0000"><%= error_message %></div>
           <% } %>
 

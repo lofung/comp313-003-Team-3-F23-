@@ -14,30 +14,32 @@
         <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
             <tr> 
                 <td>
-                    <label for="name">Book Name*:</label>
+                    <label for="name">User ID*:</label>
                 </td> 
                 <td>
-                    <input name="name" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
-                </td> 
-            </tr> 
-            <tr> 
-                <td>
-                    <label for="expiryDate">Loan Expiry Date*:</label>
-                </td> 
-                <td>
-                    <input name="expiryDate" id="expiry_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
+                    <input name="name" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" disabled />
                 </td> 
             </tr> 
             <tr> 
                 <td>
-                    <label for="bookStatus">Book Status*:</label>
+                    <label for="role">Role*:</label>
                 </td> 
                 <td>
-                    <select name="bookStatus" id="status_box"> 
-                        <option value="available">Available</option> 
-                        <option value="reserved">Reserved</option> 
-                        <option value="repair">In Repair</option> 
-                        <option value="obsolete">Obsolete</option> 
+                    <select name="role" id="role"> 
+                        <option value="user">User</option> 
+                        <option value="moderator">Moderator</option> 
+                        <option value="admin">Super Admin</option>
+                    </select>
+                </td> 
+            </tr> 
+            <tr> 
+                <td>
+                    <label for="activeStatus">Active Status*:</label>
+                </td> 
+                <td>
+                    <select name="activeStatus" id="active_box"> 
+                        <option value="true">Active</option> 
+                        <option value="false">Disabled</option> 
                     </select>
                 </td> 
             </tr> 
@@ -49,7 +51,7 @@
                     <div style="float:right"></div>
                     <button id="submit" onClick="submit">Submit Edit</button>
                     <!-- button name="Check input" id="check" value="Check input" onClick="checkInput(e)">Check Inputs</button -->
-                    <a href="/closed/home" style="text-decoration: none">Cancel</a>
+                    <a href="/closed/people" style="text-decoration: none">Cancel</a>
                 </td> 
             </tr>
         </table>
@@ -68,20 +70,19 @@
         //console.log("book info is ")
         console.log(answer)
         document.getElementById("name_box").value = answer[0].name
-        document.getElementById("expiry_box").value = answer[0].expiryDate.split("T")[0]
-        document.getElementById("status_box").value = answer[0].bookStatus
+        document.getElementById("role").value = answer[0].role
+        document.getElementById("active_box").value = answer[0].active? true:false
     }
 
     async function submit(e){
-        e.preventDefault();
-        let name = document.getElementById("name_box").value
-        let expiryDate = document.getElementById("expiry_box").value
-        let bookStatus = document.getElementById("status_box").value
-        //console.log({id, name, number, email})
+        e.preventDefault()
+        let role = document.getElementById("role").value
+        let activeStatus = document.getElementById("active_box").value
+        //console.log({id, name, role, number, email})
         //alert("OK")
         await fetch(
-	    	`/users/v1/edituser/${id}?name=${name}&expiryDate=${document.getElementById("expiry_box").value}&bookStatus=${document.getElementById("status_box").value}`,
-    		{ method: 'PUT' }
+            `/users/v1/edituser/${id}?role=${role}&activeStatus=${activeStatus}`,
+            { method: 'PUT' }
         )
         window.location.href="/closed/people"
     }

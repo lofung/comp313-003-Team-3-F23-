@@ -47,7 +47,7 @@ router.post('/v1/new', checkAuthenticated, async function(req, res, next) {
   
   });
 
-/* secured API for add book */
+/* secured API for edit book */
 router.put('/v1/editbook/:id', checkAuthenticated, async function(req, res, next) {
   if (req.params.id == "" || req.params.id == null){
     res.redirect(303, '/booklist')

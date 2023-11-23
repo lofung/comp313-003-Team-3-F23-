@@ -17,7 +17,7 @@ const passport = require('passport')
 const initializePassport = require('../passport-config')
 initializePassport(passport)
 
-router.get('/v1/getall', async function(req, res, next) {
+router.get('/v1/getall', checkAuthenticated, checkAdmin, async function(req, res, next) {
   try {
     const tempAllUsers = await userModel.find({}).sort({ name: 'asc' })
     const allUsersOut = JSON.parse(JSON.stringify(tempAllUsers))
@@ -28,6 +28,48 @@ router.get('/v1/getall', async function(req, res, next) {
     res.status(500).json({ error: 'Internal Server Error' })
   }
 })
+
+/* secured API for one user */
+router.get('/v1/getone/:id', checkAuthenticated, checkAdmin, async function(req, res, next) {
+  try {
+    const id = req.params.id
+    const tempUser = await userModel.find({id})
+    const allUsers = JSON.parse(JSON.stringify(tempUser))
+    const allUsersWithoutHashed = allUsers.map(({ hashed, ...rest }) => rest) // do not return hashed password
+    res.json(allUsersWithoutHashed)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+
+});
+
+/* secured API for edit user */
+router.put('/v1/edituser/:id', checkAuthenticated, checkAdmin, async function(req, res, next) {
+  try {
+    const id = req.params.id
+    const role = req.query.role
+    const active = req.query.activeStatus
+    console.log({id, role, active})
+    try {
+      let tempUser = await userModel.findOneAndUpdate(
+        {id}, //search for id
+        {role, active}, //update these
+        {returnOriginal: true}
+        )
+          
+        res.redirect(303, '/closed/people')
+      } catch (e){
+        console.error(e)
+      }  
+    
+  
+
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+}) 
 
 
 router.post('/v1/register', async function(req, res, next) {
@@ -86,6 +128,31 @@ router.delete('/v1closed/logout', (req, res, next) => {
   });
 });
   
+
+//check if you are admin
+function checkAdmin(req, res, next) {
+  if (req.user.role == "admin") {
+    console.log("admin logged in, you may go")
+    return next()
+  }
+  console.log("not admin, you may not go")
+  res.render('homepage_open', { title: 'Homepage', user: req.user, error_message:"You are not an admin. You may not access restricted page."});
+}
+
+function checkAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  res.locals.message = req.message
+  res.redirect('/closed/login')
+}
+
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    res.redirect('/closed/')
+  }
+  return next()
+}
 
 
 module.exports = router;

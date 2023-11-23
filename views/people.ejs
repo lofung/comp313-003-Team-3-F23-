@@ -14,6 +14,7 @@
             <tr>
             <td style="min-width: 100px">Name</td>
             <td style="min-width: 100px">Role</td>
+            <td style="min-width: 100px">Active</td>
           </tr>
             <tr>
               <td>loading....</td>
@@ -37,6 +38,9 @@
               <td style="min-width:200px;">
                 Role
               </td>
+              <td style="min-width:200px;">
+                Active
+              </td>
             </tr>`
         //console.log(answer)
         answer.forEach(item => {
@@ -47,6 +51,9 @@
                 </td>
                 <td>
                     ${item.role}
+                </td>
+                <td>
+                    ${item.active === false? "Disabled" : "Active"}
                 </td>
                 <td>
                     <a href="/closed/edituser/${item.id}" style="text-decoration: none"><button><i class="bi bi-pencil-square"></i></button></a>
