@@ -1,50 +1,36 @@
 const mongoose = require("mongoose");
 
-const bookSchema = new mongoose.Schema({
+const deliverySchema = new mongoose.Schema({
 
-    title: {
-        type: String,
-        required: true,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
-    image: {
-        type: String,
-        require: false
+    book_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book',
+    },
+    
+    borrowDate: {
+        type:Date,
+        default: Date.now,
     },
 
-    author: {
+    returnDate: Date,
+    address:String,
+
+    latitude:Number,
+    longitude: Number,
+
+    status: {
         type: String,
-        
-    },
-    genre: String,
-    publishedDate: Date,
-    isbn: {
-        type: String,
-        /*unique: true,*/
-        
-    },
-    description: String,
-    copiesAvailable: {
-        type: Number,
-        default: 1,
-    },
-    weight: Number,
-    comments :{
-        type: Array,
-        default: []
-    },
-    upvotes: {
-        type: Number,
-        default: 0
-    },
-    downvotes: {
-        type: Number,
-        default: 0
+        enum: ['0processing', '1dispatched', '2enroute', '3delivered', '4toPickup', '5pickedUp', '6returning', '7returned'],
+        default: '0processing',       
+
     }
-
-
 
 });
 
-const Book = mongoose.model("book", bookSchema);
+const Delivery = mongoose.model("Delivery", deliverySchema);
 
-module.exports = Book;
+module.exports = Delivery;

@@ -49,7 +49,7 @@
         </div>
         <br><br>
 
-        <form action="/delivery" method="post" id="bookform" style="padding: 30px;"
+        <form action="/delivery/confirm/<%=book._id%>" method="post" id="bookform" style="padding: 30px;"
           class="mx-auto d-block border border-2">
           <div class="form-group">
             <label for="address">Delivery Address</label>
@@ -66,18 +66,18 @@
                   <span class="input-group-text">Latitude</span>
                 </span>
                 <input name="latitude" type="number" class="form-control" id="latitude"
-                  placeholder="Enter latitudinal Coordinate">
+                  placeholder="Enter latitudinal Coordinate" step="0.0000001" required>
               </div>
             </div>
 
             <div class="form-group col-md-6">
-              <label for="lognitude">Lognitude</label>
+              <label for="longitude">Longitude</label>
               <div class="input-group">
                 <span class="input-group-prepend">
-                  <span class="input-group-text">Lognitude</span>
+                  <span class="input-group-text">Longitude</span>
                 </span>
-                <input name="lognitude" type="number" class="form-control" id="lognitude"
-                  placeholder="Enter Lognitudinal Coordinate">
+                <input name="longitude" type="number" class="form-control" id="longitude"
+                  placeholder="Enter Longitude Coordinate" step="0.0000001" required>
               </div>
             </div>
           </div>
@@ -99,14 +99,16 @@
 
             function showPosition(position) {
               x.style.color = "black"
+              x.innerHTML = ""
               //x.innerHTML = "Latitude: " + position.coords.latitude +
                // "<br>Longitude: " + position.coords.longitude;
 
 
                 document.getElementById("latitude").value = position.coords.latitude ;
                 document.getElementById("latitude").style.backgroundColor = "#ff00002e"
-                document.getElementById("lognitude").value = position.coords.longitude;
-                document.getElementById("lognitude").style.backgroundColor = "#ff00002e"
+
+                document.getElementById("longitude").value = position.coords.longitude;
+                document.getElementById("longitude").style.backgroundColor = "#ff00002e"
 
 
                 googlemap.src = "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5759.813429498754!2d"+position.coords.longitude+"!3d"+position.coords.latitude+"!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sca!4v1700764538970!5m2!1sen!2sca";

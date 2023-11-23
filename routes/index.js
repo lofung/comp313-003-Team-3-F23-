@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Book = require('../models/book')
+const Delivery = require('../models/delivery')
 
 
 /* GET home page. */
@@ -67,10 +68,10 @@ router.post('/comment/:id', checkAuthenticated, function (req, res, next) {
 /* Get Delivery page*/
 router.get('/delivery/:id', checkAuthenticated, function (req, res, next) {
 
-   var id = req.params.id
-   
+  var id = req.params.id
 
-   Book.findById(id, (err, book) => {
+
+  Book.findById(id, (err, book) => {
     if (err) {
       console.log("Book ERROR")
     } else {
@@ -85,6 +86,52 @@ router.get('/delivery/:id', checkAuthenticated, function (req, res, next) {
 
 });
 
+
+
+/*Post Delivery confirmation page*/
+router.post('/delivery/confirm/:id', checkAuthenticated, function (req, res, next) {
+
+  var id = req.params.id
+
+  Book.findByIdAndUpdate(id, {
+    $inc: { copiesAvailable: -1 }
+  }, (err, book) => {
+
+    if (err) {
+      res.redirect('/error');
+    } else {
+      //res.redirect("/");
+    }
+  })
+
+  const delivery = new Delivery({
+    user_id: req.user._id,
+    book_id: id,
+    address: req.body.address,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude    
+
+  });
+
+  delivery.save((err) => {
+    if (err) {
+      res.json({ message: err.message, type: 'danger' });
+    } else {
+      req.session.message = {
+        type: "success",
+        message: "Book Borrowed succesfully!"
+      };
+
+      //res.locals.message = "Book added succesfully!";
+
+      res.redirect("/");
+    }
+  })
+
+
+
+
+});
 
 
 /*****************************************************
