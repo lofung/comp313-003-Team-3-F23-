@@ -8,8 +8,8 @@ var router = express.Router();
 
 /* secured API for one book */
 router.get('/v1/getone/:id', async function(req, res, next) {
-  const _id = req.params.id
-  const tempAllBooks = await booksModel.find({_id})
+  const id = req.params.id
+  const tempAllBooks = await booksModel.find({id})
   const allBooks = JSON.parse(JSON.stringify(tempAllBooks))
   res.json(allBooks)
 });
@@ -46,7 +46,34 @@ router.post('/v1/new', checkAuthenticated, async function(req, res, next) {
   
   
   });
-  /*Search*/
+
+/* secured API for add book */
+router.put('/v1/editbook/:id', checkAuthenticated, async function(req, res, next) {
+  if (req.params.id == "" || req.params.id == null){
+    res.redirect(303, '/booklist')
+  } else {
+      id = req.params.id
+  }
+  //console.log(id)
+  const name = req.query.name
+  const expiryDate = req.query.expiryDate
+  const bookStatus = req.query.bookStatus
+
+  try {
+    let tempBook = await booksModel.findOneAndUpdate(
+      {id}, //search for id
+      {name, expiryDate, bookStatus}, //update these
+      {returnOriginal: true}
+      )
+        
+      res.redirect(303, '/closed/booklist')
+    } catch (e){
+      console.error(e)
+    }  
+  
+
+});
+
 
 /* secured API for delete a book */
 //DELETE does not work on button currently so deal with it!!
@@ -159,7 +186,7 @@ router.post('/v1/addreturn/', checkAuthenticated, async function(req, res, next)
 }
 })
 
-/* secured API for edit contacts */
+/* secured API for ADD contacts */
 router.post('/v1/edit/:id', checkAuthenticated, async function(req, res, next) {
   const _id = req.params.id
   const name = req.query.name

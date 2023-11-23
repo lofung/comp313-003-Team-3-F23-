@@ -4,6 +4,8 @@ const contactsModel = require('../models/contacts.js');
 var express = require('express');
 var router = express.Router();
 
+/* add /closed to the start of the url*/
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('homepage', { title: 'Homepage', user: req.user});
@@ -21,6 +23,12 @@ router.get('/register', checkNotAuthenticated, function(req, res, next) {
 router.get('/feedback', function(req, res, next) {
   res.render('feedback', { title: 'Feedback', user: req.user, success: true});
 });
+
+/* GET edit page. */
+router.get('/editbook/:id', checkAuthenticated, function(req, res, next) {
+  res.render('editbook', { title: 'Edit Book', user: req.user, success: true});
+});
+
 
 
 /* GET home page. */
