@@ -46,6 +46,11 @@ router.get('/return', checkAuthenticated, checkAdmin, function(req, res, next) {
   res.render('return', { title: 'Return', user: req.user});
 });
 
+/* GET Return page. */
+router.get('/people', checkAuthenticated, checkAdmin, function(req, res, next) {
+  res.render('people', { title: 'People', user: req.user});
+});
+
 /* GET BOOKS index page. */
 router.get('/booklist', function(req, res, next) {
   res.render('booklist', { title: 'Book List', user: req.user});
@@ -55,7 +60,7 @@ router.get('/business', checkAuthenticated, function(req, res, next) {
   res.render('businessViews', { title: 'Business Contacts', user: req.user});
 });
 
-router.get('/addbookform', checkAuthenticated, function(req, res, next) {
+router.get('/addbookform', checkAuthenticated, checkAdmin, function(req, res, next) {
   res.render('addbookform', { title: 'Add Book Form', user: req.user});
 });
 
