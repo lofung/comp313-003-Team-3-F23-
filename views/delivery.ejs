@@ -1,0 +1,53 @@
+<%- include partials/navbar.ejs %>
+
+  <!-- Main Content -->
+  <div class="main">
+
+    <main class="container">
+
+
+      <div style="margin: 20px;">
+        <h2>Drone Delivery</h2>
+
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4 " style="display: flex;align-items: center;">
+              <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;" src="/<%=book.image%>" class="card-img" alt="book cover">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= book.title %> <small class="text-muted"><i> - by <%= book.author %></i></small>
+                </h5>
+                <p  style="font-size: 0.8em;" class="card-text">
+                  <b>Copies Available:</b>
+                  <%= book.copiesAvailable %> <br/>
+                    <b>ISBN:</b>
+                    <%= book.isbn %> <br />
+
+                      <b>Weight:</b>
+                      <%= book.weight %> lbs 
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+    </main>
+
+  </div>
+
+
+
+
+
+  <%- include partials/footer.ejs %>

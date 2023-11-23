@@ -59,7 +59,7 @@
             <button class="btn btn-danger">NO Copies currently Available</button>
             <% } else { %>
 
-              <button class="btn btn-primary" onclick="navigate('/borrow/<%= book._id %>')">Borrow</button>
+              <a class="btn btn-primary" href="/delivery/<%=book._id%>">Borrow with Fast Drone Delivery</a>
 
 
               <% } %>
@@ -122,8 +122,8 @@
         <% book.comments.forEach(function(comment,index) { %>
 
           <div class="form-group">
-            <p ><b>
-                <%= comment.userName %> - 
+            <p><b>
+                <%= comment.userName %> -
               </b>
               <%=new Date(comment.date).toLocaleString("en-CA")%>
             </p>
@@ -133,10 +133,12 @@
                   <%= comment.comment %>
                 </p>
               </div>
-            </div><hr>
+            </div>
+            <hr>
             <br>
             <% }); %>
           </div>
+      </div>
     </main>
 
   </div>
