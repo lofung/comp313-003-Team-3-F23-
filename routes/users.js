@@ -23,9 +23,14 @@ router.post('/v1/register', async function(req, res, next) {
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const date = Date.now().toString()
     const username = req.body.name
+    if (req.query.role == "admin"){
+      role = "admin"
+    } else {
+      role = "user"
+    }
 
     //console.log(`id: ${date}, name: ${username}, hashed: ${hashedPassword}`)
-    const new_user = new userModel({id: date, name: username, hashed: hashedPassword})
+    const new_user = new userModel({id: date, name: username, hashed: hashedPassword, role: role})
     await new_user.save(function(err, doc){
       if (err) return console.error(err)
       console.log("user registered successfully!")

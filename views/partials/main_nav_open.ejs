@@ -29,23 +29,13 @@
           <a class="nav-link" href="/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
         </li>
 
-      <!--
-      <% if (title == "borrow") { %>
-      <li class="nav-item active">
-      <% } else  { %>
-      <li class="nav-item">
-      <% } %>
-        <a class="nav-link" href="/borrow"><i class="fa-regular fa-id-card"></i> Borrow </a>
-      </li>
-
-      <% if (title == "Return") { %>
+      <% if (title == "Feedback") { %>
         <li class="nav-item active">
         <% } else  { %>
         <li class="nav-item">
         <% } %>
-          <a class="nav-link" href="/return"><i class="fa-solid fa-toolbox"></i> Return </a>
+          <a class="nav-link" href="/feedback"><i class="fa-solid fa-comments"></i> Feedback </a>
         </li>
-      -->
 
       <% if (typeof user === 'undefined') { %>
         <% if (title == "Register") { %>
