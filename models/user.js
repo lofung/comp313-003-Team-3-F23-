@@ -17,6 +17,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: "user"
+    },
+    active:{
+        type: Boolean,
+        required: true,
+        default: true
     }
     }, {
         collection: 'user'

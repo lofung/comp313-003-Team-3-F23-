@@ -1,0 +1,99 @@
+
+<%- include partials/header.ejs %>
+
+<%- include partials/main_nav.ejs %>
+  
+
+  <!-- Main Content -->
+  <main class="container">
+    <h1 class="display-4"><%= title %> page</h1>
+      <br />
+      <form id="form">
+        <h2>Edit book form</h2>
+        <!-- https://www.100forms.com/sources/ready-forms/contact-us-form/ -->
+        <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
+            <tr> 
+                <td>
+                    <label for="name">Book Name*:</label>
+                </td> 
+                <td>
+                    <input name="name" id="name_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
+                </td> 
+            </tr> 
+            <tr> 
+                <td>
+                    <label for="expiryDate">Loan Expiry Date*:</label>
+                </td> 
+                <td>
+                    <input name="expiryDate" id="expiry_box" type="text" maxlength="60" style="width:100%;max-width:250px;" />
+                </td> 
+            </tr> 
+            <tr> 
+                <td>
+                    <label for="bookStatus">Book Status*:</label>
+                </td> 
+                <td>
+                    <select name="bookStatus" id="status_box"> 
+                        <option value="available">Available</option> 
+                        <option value="reserved">Reserved</option> 
+                        <option value="repair">In Repair</option> 
+                        <option value="obsolete">Obsolete</option> 
+                    </select>
+                </td> 
+            </tr> 
+            <tr> 
+                <td>
+            * - required fields
+                </td> 
+                <td>
+                    <div style="float:right"></div>
+                    <button id="submit" onClick="submit">Submit Edit</button>
+                    <!-- button name="Check input" id="check" value="Check input" onClick="checkInput(e)">Check Inputs</button -->
+                    <a href="/closed/home" style="text-decoration: none">Cancel</a>
+                </td> 
+            </tr>
+        </table>
+        </form>
+
+  </main>
+
+  
+  <script>
+    let id = 0;
+    async function getUserInfo(){
+        id = window.location.href.split("/").pop()
+        //console.log("book id is " + bookId)
+        let res = await fetch('/users/v1/getone/'+id)
+        let answer = await res.json()
+        //console.log("book info is ")
+        console.log(answer)
+        document.getElementById("name_box").value = answer[0].name
+        document.getElementById("expiry_box").value = answer[0].expiryDate.split("T")[0]
+        document.getElementById("status_box").value = answer[0].bookStatus
+    }
+
+    async function submit(e){
+        e.preventDefault();
+        let name = document.getElementById("name_box").value
+        let expiryDate = document.getElementById("expiry_box").value
+        let bookStatus = document.getElementById("status_box").value
+        //console.log({id, name, number, email})
+        //alert("OK")
+        await fetch(
+	    	`/users/v1/edituser/${id}?name=${name}&expiryDate=${document.getElementById("expiry_box").value}&bookStatus=${document.getElementById("status_box").value}`,
+    		{ method: 'PUT' }
+        )
+        window.location.href="/closed/people"
+    }
+
+    //fetchContact(window.location.pathname.split("/").pop())
+    document.getElementById("submit").addEventListener ("click", submit);
+    getUserInfo()
+  </script>
+  
+<%- include partials/bottom_nav.ejs %>  
+
+<%- include partials/footer.ejs %>
+  
+
+

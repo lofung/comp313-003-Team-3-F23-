@@ -17,6 +17,18 @@ const passport = require('passport')
 const initializePassport = require('../passport-config')
 initializePassport(passport)
 
+router.get('/v1/getall', async function(req, res, next) {
+  try {
+    const tempAllUsers = await userModel.find({}).sort({ name: 'asc' })
+    const allUsersOut = JSON.parse(JSON.stringify(tempAllUsers))
+    const allUsersWithoutHashed = allUsersOut.map(({ hashed, ...rest }) => rest) // do not return hashed password
+    res.json(allUsersWithoutHashed)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+})
+
 
 router.post('/v1/register', async function(req, res, next) {
   try {

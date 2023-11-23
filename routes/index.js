@@ -25,10 +25,14 @@ router.get('/feedback', function(req, res, next) {
 });
 
 /* GET edit page. */
-router.get('/editbook/:id', checkAuthenticated, function(req, res, next) {
+router.get('/editbook/:id', checkAuthenticated,  checkAdmin, function(req, res, next) {
   res.render('editbook', { title: 'Edit Book', user: req.user, success: true});
 });
 
+/* GET user page. */
+router.get('/edituser/:id', checkAuthenticated,  checkAdmin, function(req, res, next) {
+  res.render('edituser', { title: 'Edit User', user: req.user, success: true});
+});
 
 
 /* GET home page. */

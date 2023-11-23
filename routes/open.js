@@ -52,6 +52,13 @@ router.get('/bookDetails/:id', async function(req, res, next) {
   res.render('bookdetail_open', { title: 'Book Details', book: tempBook[0], user: req.user});
 });
 
+/* GET USER detail page. */
+router.get('/editpeople/:id', async function(req, res, next) {
+  const id = req.params.id
+  const tempBook = await usersModel.find({id})
+  res.render('bookdetail_open', { title: 'Book Details', book: tempBook[0], user: req.user});
+});
+
 /* GET BOOK return and feedback form. */
 router.get('/returnbook/:id', async function(req, res, next) {
   const _id = req.params.id
