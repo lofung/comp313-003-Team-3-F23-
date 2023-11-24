@@ -7,10 +7,6 @@
 
 
 
-
-
-
-
       <div style="margin-bottom: 50px;">
         <img alt="logo" src="../../Assets/images/dronelogo.avif" class="mx-auto d-block"
           style="width: 200px;border:5px solid gray"><br>
@@ -26,7 +22,7 @@
           <div class="row no-gutters">
             <div class="col-md-4 " style="display: flex;align-items: center;">
               <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
-                src="/<%=book.image%>" class="card-img" alt="book cover">
+                src="/<%=book.image%>" onerror="this.onerror=null;this.src='/noImage.png';" class="card-img" alt="book cover">
             </div>
             <div class="col-md-8">
               <div class="card-body">

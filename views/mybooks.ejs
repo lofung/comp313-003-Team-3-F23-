@@ -1,0 +1,149 @@
+<%- include partials/navbar.ejs %>
+  <!-- change all time git -->
+  <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
+
+
+
+
+
+  <!-- Main Content -->
+  <div class="main">
+
+
+    <main class="container">
+
+      <h1>My Books</h1>
+      <p><i>View your Borrowed Books and track drone deliveries</i></p>
+
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true">Borrowed Books</a>
+          <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+            aria-controls="nav-profile" aria-selected="false">Returned Books (history)</a>
+        </div>
+      </nav>
+
+      <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          <br>
+          <h3>Borrowed Books</h3>
+          <p>Search all book details:</p>
+          <input class="form-control" id="myInput" type="text" placeholder="Search..">
+          <hr>
+
+          <% deliveries.forEach(function(delivery,index) { %>
+
+            <div class="borrowed card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4 " style="display: flex;align-items: center;">
+                  <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                    src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                    class="card-img" alt="book cover">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%= delivery.book_id.author %>
+                          </i></small>
+                    </h5>
+                    <p style="font-size: 0.8em;" class="card-text">
+                      <b>Genre:</b>
+                      <%= delivery.book_id.genre %> <br />
+                        <b>ISBN:</b>
+                        <%= delivery.book_id.isbn %> <br />
+
+
+                    </p>
+
+                    <b>Status:</b>
+                    <%= delivery.status %> <br />
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% }); %>
+
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <br>
+          <h3>Returned Books</h3>
+          <p>Search all book details:</p>
+          <input class="form-control" id="myInput2" type="text" placeholder="Search..">
+          <hr>
+
+          <% returnDeliveries.forEach(function(delivery,index) { %>
+
+            <div class="returned card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4 " style="display: flex;align-items: center;">
+                  <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                    src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                    class="card-img" alt="book cover">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%= delivery.book_id.author %>
+                          </i></small>
+                    </h5>
+                    <p style="font-size: 0.8em;" class="card-text">
+                      <b>Genre:</b>
+                      <%= delivery.book_id.genre %> <br />
+                        <b>ISBN:</b>
+                        <%= delivery.book_id.isbn %> <br />
+
+
+                    </p>
+
+                    <b>Status:</b>
+                    <%= delivery.status %> <br />
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% }); %>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    </main>
+
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $(".borrowed").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+
+    $(document).ready(function () {
+      $("#myInput2").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $(".returned").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+
+
+
+  <%- include partials/footer.ejs %>

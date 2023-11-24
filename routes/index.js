@@ -155,7 +155,36 @@ router.post('/delivery/confirm/:id', checkAuthenticated, async function (req, re
 });
 
 
+/* GET home page. */
+router.get('/mybooks', checkAuthenticated, async function (req, res, next) {
 
+  const deliveries = await Delivery
+    .find({
+      user_id: req.user._id, // replace with the actual user_id
+      returnDate: { $exists: false }
+    })
+    .populate('user_id')
+    .populate('book_id')
+    .sort('book_id.title');
+
+  console.log(deliveries);
+
+
+  const returnDeliveries = await Delivery
+    .find({
+      user_id: req.user._id, // replace with the actual user_id
+      returnDate: { $exists: true }
+    })
+    .populate('user_id')
+    .populate('book_id')
+    .sort('book_id.title');
+
+
+  res.render('mybooks', { title: 'Mybooks', user: req.user, deliveries: deliveries, returnDeliveries:returnDeliveries });
+
+
+
+});
 
 
 

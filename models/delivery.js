@@ -8,7 +8,7 @@ const deliverySchema = new mongoose.Schema({
     },
     book_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book',
+        ref: 'book',
     },
     
     borrowDate: {
@@ -24,7 +24,7 @@ const deliverySchema = new mongoose.Schema({
 
     status: {
         type: String,
-        enum: ['0processing', '1dispatched', '2enroute', '3delivered', '4toPickup', '5pickedUp', '6returning', '7returned'],
+        enum: ['0processing', '1dispatched', '2delivered', '3toPickup', '4pickedUp', '5returned'],
         default: '0processing',       
 
     }
