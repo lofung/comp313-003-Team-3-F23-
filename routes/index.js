@@ -18,9 +18,21 @@ router.get('/', function (req, res, next) {
 
 
 /* GET Book Details page. */
-router.get('/book-details/:id', function (req, res, next) {
+router.get('/book-details/:id', async function (req, res, next) {
 
   let id = req.params.id;
+
+  var deliveryCheck = false
+
+  if (req.isAuthenticated()) {
+    deliveryCheck = await Delivery.findOne({
+      user_id: req.user._id,
+      book_id: id,
+      returnDate: { $exists: false }, // Check if returnDate does not exist
+    })
+
+  }
+
   Book.findById(id, (err, book) => {
     if (err) {
       alert("Book ERROR")
@@ -28,7 +40,7 @@ router.get('/book-details/:id', function (req, res, next) {
       if (book == null) {
         alert("Book not found ERROR")
       } else {
-        res.render('bookdetails', { title: 'Bookdetails', user: req.user, book: book });
+        res.render('bookdetails', { title: 'Bookdetails', user: req.user, book: book, deliveryCheck: !!deliveryCheck });
       }
     }
   })
@@ -89,9 +101,21 @@ router.get('/delivery/:id', checkAuthenticated, function (req, res, next) {
 
 
 /*Post Delivery confirmation page*/
-router.post('/delivery/confirm/:id', checkAuthenticated, function (req, res, next) {
+router.post('/delivery/confirm/:id', checkAuthenticated, async function (req, res, next) {
 
   var id = req.params.id
+
+
+  var deliveryCheck = await Delivery.findOne({
+    user_id: req.user._id,
+    book_id: id,
+    returnDate: { $exists: false }, // Check if returnDate does not exist
+  })
+
+  //if book borrowed already , you cannot borrow it , redirect to details page
+  if (!!deliveryCheck) {
+    return res.redirect("/book-details/" + id)
+  }
 
   Book.findByIdAndUpdate(id, {
     $inc: { copiesAvailable: -1 }
@@ -109,7 +133,7 @@ router.post('/delivery/confirm/:id', checkAuthenticated, function (req, res, nex
     book_id: id,
     address: req.body.address,
     latitude: req.body.latitude,
-    longitude: req.body.longitude    
+    longitude: req.body.longitude
 
   });
 
@@ -128,10 +152,11 @@ router.post('/delivery/confirm/:id', checkAuthenticated, function (req, res, nex
     }
   })
 
-
-
-
 });
+
+
+
+
 
 
 /*****************************************************

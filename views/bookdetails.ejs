@@ -59,24 +59,26 @@
             <button class="btn btn-danger">NO Copies currently Available</button>
             <% } else { %>
 
-              <a class="btn btn-primary" href="/delivery/<%=book._id%>">Borrow with Fast Drone Delivery</a>
+              <% if (!deliveryCheck) { %>
+                <a class="btn btn-primary" href="/delivery/<%=book._id%>">Borrow with Fast Drone Delivery</a>
+                <% } else { %>
+                  <button class="btn btn-danger">Book Already Borrowed</button>
+                  <% } %>
+                    <% } %>
+                      <br /><br />
 
 
-              <% } %>
-                <br /><br />
-
-
-                <p>
-                  <b>Copies Available:</b>
-                  <%= book.copiesAvailable %> <br /><br />
-                    <b>ISBN:</b>
-                    <%= book.isbn %> <br />
-                      <b>Published:</b>
-                      <%= book.publishedDate? new Date(book.publishedDate).toLocaleString("en-CA",{year: 'numeric'
-                        ,month: 'long' , day: 'numeric' }) : 'unspecified' %> <br />
-                        <b>Weight:</b>
-                        <%= book.weight %> lbs <br />
-                </p>
+                      <p>
+                        <b>Copies Available:</b>
+                        <%= book.copiesAvailable %> <br /><br />
+                          <b>ISBN:</b>
+                          <%= book.isbn %> <br />
+                            <b>Published:</b>
+                            <%= book.publishedDate? new Date(book.publishedDate).toLocaleString("en-CA",{year: 'numeric'
+                              ,month: 'long' , day: 'numeric' }) : 'unspecified' %> <br />
+                              <b>Weight:</b>
+                              <%= book.weight %> lbs <br />
+                      </p>
         </div>
       </div>
 
@@ -142,8 +144,6 @@
     </main>
 
   </div>
-
-
 
 
 
