@@ -165,15 +165,15 @@ router.get('/dronedispatch', async function (req, res, next) {
   const deliveries = await Delivery
     .find({
       // user_id: req.user._id, // replace with the actual user_id
-     // status: "0processing", //books for drone dispatch
-      returnDate: { $exists: false }
+      // status: "0processing", //books for drone dispatch
+      //returnDate: { $exists: false }
     })
     .populate('user_id')
     .populate('book_id')
     //.sort('book_id.title');
     .sort({ 'delivery.borrowDate': 1 });
 
-  console.log(deliveries);
+  //console.log(deliveries);
 
 
   const returnDeliveries = await Delivery
@@ -195,24 +195,124 @@ router.get('/dronedispatch', async function (req, res, next) {
 
 
 /* POST Update Book page. */
+/*
 router.get('/deliveryDispatch/:id/:status', function (req, res, next) {
 
   let id = req.params.id;
   let status = req.params.status;
 
-  Delivery.findByIdAndUpdate(id, { $set: { status: status } },
-   (err, delivery) => {
-    if (err) {
-      //alert("Book ERROR")
-      res.send("delivery ERROR");
-    } else {
+  if (status == '5returned') {
 
-        res.redirect('/admin/dronedispatch?message=dispatched');
-      
-    }
-  })
+    Delivery.findByIdAndUpdate(id, { $set: { status: status, returnDate: new Date() } },
+      { new: true },
+      (err, delivery) => {
+        if (err) {
+          //alert("Book ERROR")
+          res.send("delivery ERROR");
+        } else {
+
+          //console.log(delivery.book_id)
+
+          Book.findByIdAndUpdate(delivery.book_id, {
+            $inc: { copiesAvailable: 1 }
+          }, (err, book) => {
+
+            if (err) {
+              res.redirect('/error');
+            } else {
+              res.send("error updating book copies");
+              //res.redirect("/");
+            }
+          })
+         
+            res.redirect('/admin/dronedispatch?message=dispatched');        
+
+
+        }
+      })
+
+
+  }
+  else {
+
+    Delivery.findByIdAndUpdate(id, { $set: { status: status } },
+      (err, delivery) => {
+        if (err) {
+          //alert("Book ERROR")
+          res.send("delivery ERROR");
+        } else {
+
+          if (status == '3toPickup') {
+            res.redirect('/mybooks'); //user page
+          }
+          else {
+            res.redirect('/admin/dronedispatch?message=dispatched');
+          }
+
+
+        }
+      })
+
+  }
+
 
 })
+
+*/
+
+
+/* POST Update Book page. */
+router.get('/deliveryDispatch/:id/:status', function (req, res, next) {
+  let id = req.params.id;
+  let status = req.params.status;
+
+  if (status == '5returned') {
+      Delivery.findByIdAndUpdate(
+          id,
+          { $set: { status: status, returnDate: new Date() } },
+          { new: true },
+          (err, delivery) => {
+              if (err) {
+                  res.status(500).send("Delivery update error");
+              } else {
+                  Book.findByIdAndUpdate(
+                      delivery.book_id,
+                      { $inc: { copiesAvailable: 1 } },
+                      (err, book) => {
+                          if (err) {
+                              res.status(500).send("Book update error");
+                          } else {
+                              // Move the common redirect outside the if-else block
+                              redirectToDispatched(res);
+                          }
+                      }
+                  );
+              }
+          }
+      );
+  } else {
+      Delivery.findByIdAndUpdate(
+          id,
+          { $set: { status: status } },
+          (err, delivery) => {
+              if (err) {
+                  res.status(500).send("Delivery update error");
+              } else {
+                  if (status == '3toPickup') {
+                      res.redirect('/mybooks'); // user page
+                  } else {
+                      // Move the common redirect outside the if-else block
+                      redirectToDispatched(res);
+                  }
+              }
+          }
+      );
+  }
+
+  function redirectToDispatched(res) {
+      res.redirect('/admin/dronedispatch?message=dispatched');
+  }
+});
 
 
 

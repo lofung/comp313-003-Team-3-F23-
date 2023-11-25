@@ -59,7 +59,14 @@
                     </p>
 
                     <b>Status:</b>
-                    <%= delivery.status %> <br />
+                    <span <% if (delivery.status=='2delivered' ) { %> style="background:#00800047;" <% } %>><%=
+                          delivery.status %></span> <br />
+                    <br>
+                    <% if (delivery.status=='2delivered' ) { %>
+                      <a class="btn btn-success" href="/admin/deliveryDispatch/<%= delivery._id %>/3toPickup"><i
+                          class="bi bi-airplane-fill"></i> Request Return Drone Pickup</a>
+
+                      <% } %>
 
                   </div>
                 </div>

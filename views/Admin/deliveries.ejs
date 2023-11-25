@@ -251,7 +251,8 @@
 
 
  <!---------------------------------------------Return Section------------------------------------------------------------------->
-
+ <!---------------------------------------------Return Section------------------------------------------------------------------->
+<!---------------------------------------------Return Section------------------------------------------------------------------->
 
 
 
@@ -262,43 +263,237 @@
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
           <br>
           <h3>Books for Drone Pickup</h3>
-          <p>Search all book details:</p>
-          <input class="form-control" id="myInput2" type="text" placeholder="Search..">
-          <hr>
-
-          <% returnDeliveries.forEach(function(delivery,index) { %>
-
-            <div class="returned card mb-3" style="max-width: 540px;">
-              <div class="row no-gutters">
-                <div class="col-md-4 " style="display: flex;align-items: center;">
-                  <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
-                    src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
-                    class="card-img" alt="book cover">
-                </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%= delivery.book_id.author %>
-                          </i></small>
-                    </h5>
-                    <p style="font-size: 0.8em;" class="card-text">
-                      <b>Genre:</b>
-                      <%= delivery.book_id.genre %> <br />
-                        <b>ISBN:</b>
-                        <%= delivery.book_id.isbn %> <br />
 
 
-                    </p>
 
-                    <b>Status:</b>
-                    <%= delivery.status %> <br />
 
-                  </div>
-                </div>
+          <div class="row">
+            <div class="col-2">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-topickup-tab" data-toggle="pill" href="#v-pills-topickup" role="tab"
+                  aria-controls="v-pills-topickup" aria-selected="true" onclick="clearInputTextboxes()">To Pickup</a>
+                <a class="nav-link" id="v-pills-Picked-tab" data-toggle="pill" href="#v-pills-Picked" role="tab"
+                  aria-controls="v-pills-Picked" aria-selected="false" onclick="clearInputTextboxes()">Picked-Up</a>
+                <a class="nav-link" id="v-pills-Returned-tab" data-toggle="pill" href="#v-pills-Returned" role="tab"
+                  aria-controls="v-pills-Returned" aria-selected="false" onclick="clearInputTextboxes()">Returned</a>
+
               </div>
             </div>
 
-            <% }); %>
+            <div class="col-10">
+
+              <!--------------------------To Pickup--------------------------------->
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-topickup" role="tabpanel"
+                  aria-labelledby="v-pills-topickup-tab">
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='3toPickup' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/4pickedUp"><i
+                                            class="bi bi-airplane-fill"></i> Pickup</a>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+
+
+                </div>
+
+
+                <!--------------------------pickedup--------------------------------->
+
+
+                <div class="tab-pane fade" id="v-pills-Picked" role="tabpanel" aria-labelledby="v-pills-Picked-tab">
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='4pickedUp' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/5returned"><i
+                                            class="bi bi-check2-square"></i> Return</a>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+                </div>
+
+
+                <!--------------------------Returned--------------------------------->
+
+                <div class="tab-pane fade" id="v-pills-Returned" role="tabpanel" aria-labelledby="v-pills-Returned-tab">
+
+
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='5returned' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+                                        <!--
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/5returned"><i
+                                            class="bi bi-check2-square"></i> Delivered</a>
+                                          -->
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+          
+
         </div>
       </div>
 
