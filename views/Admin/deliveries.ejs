@@ -1,0 +1,351 @@
+<%- include partials/navbar.ejs %>
+  <!-- change all time git -->
+  <!-- how to git https://stackoverflow.com/questions/1221840/remote-origin-already-exists-on-git-push-to-a-new-repository -->
+
+
+
+
+
+  <!-- Main Content -->
+  <div class="main">
+
+
+    <main class="container">
+
+      <h1>Track and manage Books for Dispatch and Pickup</h1>
+      <p><i>View and update book drone delivery statuses</i></p>
+
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true" onclick="clearInputTextboxes()">Books for Drone Dispatch</a>
+          <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+            aria-controls="nav-profile" aria-selected="false" onclick="clearInputTextboxes()">Books for Drone Pickup</a>
+        </div>
+      </nav>
+
+
+
+      <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+          <br>
+          <h3>Books for Drone Dispatch</h3>
+          <p>Books sorted by Borrowed date</p>
+          <div class="row">
+            <div class="col-2">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                  aria-controls="v-pills-home" aria-selected="true" onclick="clearInputTextboxes()">To Dispatch</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                  aria-controls="v-pills-profile" aria-selected="false" onclick="clearInputTextboxes()">Dispatched</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+                  aria-controls="v-pills-messages" aria-selected="false" onclick="clearInputTextboxes()">Delivered</a>
+
+              </div>
+            </div>
+
+            <div class="col-10">
+
+              <!--------------------------To Dispatch--------------------------------->
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                  aria-labelledby="v-pills-home-tab">
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='0processing' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/1dispatched"><i
+                                            class="bi bi-airplane-fill"></i> Dispatch</a>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+
+
+                </div>
+
+
+                <!--------------------------Dispatched--------------------------------->
+
+
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='1dispatched' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/2delivered"><i
+                                            class="bi bi-check2-square"></i> Deliver</a>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+                </div>
+
+
+                <!--------------------------Delivered--------------------------------->
+
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+
+
+
+                  <p>Search all book details:</p>
+                  <input class="form-control myInput" type="text" placeholder="Search..">
+                  <hr>
+
+                  <% deliveries.forEach(function(delivery,index) { %>
+                    <% if (delivery.status=='2delivered' ) { %>
+                      <div class="borrowed card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                          <div class="col-md-4 ">
+                            <img
+                              style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                              src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                              class="card-img" alt="book cover">
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%=
+                                        delivery.book_id.author %>
+                                    </i></small>
+                              </h5>
+                              <p style="font-size: 0.8em;" class="card-text">
+                                <b>Genre:</b>
+                                <%= delivery.book_id.genre %> <br />
+                                  <b>ISBN:</b>
+                                  <%= delivery.book_id.isbn %> <br />
+
+
+                              </p>
+
+
+                              <h5>Delivery Info:</h5>
+                              <b>Status:</b>
+                              <%= delivery.status %>
+                                <hr>
+                                <b>Borrowed:</b>
+                                <%= new Date(delivery.borrowDate).toLocaleString("en-CA") %> <br />
+                                  <b>Address:</b>
+                                  <%= delivery.address %> <br />
+                                    <b>Latitude:</b>
+                                    <%= delivery.latitude %> <br />
+                                      <b>Longitude:</b>
+                                      <%= delivery.longitude %> <br /><br>
+                                        <!--
+                                        <a class="btn btn-success"
+                                          href="/admin/deliveryDispatch/<%= delivery._id %>/2delivered"><i
+                                            class="bi bi-check2-square"></i> Delivered</a>
+                                          -->
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                      <% } %>
+                        <% }); %>
+
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+
+ <!---------------------------------------------Return Section------------------------------------------------------------------->
+
+
+
+
+
+
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <br>
+          <h3>Books for Drone Pickup</h3>
+          <p>Search all book details:</p>
+          <input class="form-control" id="myInput2" type="text" placeholder="Search..">
+          <hr>
+
+          <% returnDeliveries.forEach(function(delivery,index) { %>
+
+            <div class="returned card mb-3" style="max-width: 540px;">
+              <div class="row no-gutters">
+                <div class="col-md-4 " style="display: flex;align-items: center;">
+                  <img style="margin: 5px;max-height: 125px;object-fit: contain;  background-color: #a6a8e147;"
+                    src="/<%=delivery.book_id.image%>" onerror="this.onerror=null;this.src='/noImage.png';"
+                    class="card-img" alt="book cover">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= delivery.book_id.title %> <small class="text-muted"><i> - by <%= delivery.book_id.author %>
+                          </i></small>
+                    </h5>
+                    <p style="font-size: 0.8em;" class="card-text">
+                      <b>Genre:</b>
+                      <%= delivery.book_id.genre %> <br />
+                        <b>ISBN:</b>
+                        <%= delivery.book_id.isbn %> <br />
+
+
+                    </p>
+
+                    <b>Status:</b>
+                    <%= delivery.status %> <br />
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <% }); %>
+        </div>
+      </div>
+
+
+
+     
+
+
+
+    </main>
+
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $(".myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $(".borrowed").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+
+    $(document).ready(function () {
+      $(".nav-pills, .nav-link").on("click", function () {
+        var value = ""
+        $(".borrowed").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+
+
+
+
+    function clearInputTextboxes() {
+      // Get all input elements with the class 'input-box'
+      var inputElements = document.getElementsByClassName('myInput');
+
+      // Loop through the input elements and set their values to an empty string
+      for (var i = 0; i < inputElements.length; i++) {
+        inputElements[i].value = '';
+      }
+
+    }
+  </script>
+
+
+
+  <%- include partials/footer.ejs %>

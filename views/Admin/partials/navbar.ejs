@@ -18,11 +18,11 @@
 
   
 <!-- Main Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-darkblue">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <% if (typeof user === 'undefined') { %>
-    <a class="navbar-brand" href="/" style="border:3px solid white">Library</a>
+    <a class="navbar-brand" href="/admin/bookmgmt" style="border:3px solid white">Library</a>
   <% } else  { %>
-    <a class="navbar-brand" href="/"> Welcome, <%= user.name %>!</a>
+    <a class="navbar-brand" href="/admin/bookmgmt"> Welcome, <%= user.name %>!</a>
   <% } %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -31,36 +31,23 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
 
-      <% if (title == "Home"){ %>
+      <% if (title == "AdminBooksOnFly"){ %>
       <li class="nav-item active">
       <% } else  { %>
       <li class="nav-item">
       <% } %>
-        <a class="nav-link" href="/home"><i class="fa-solid fa-house"></i> Home </a>
+        <a class="nav-link" href="/admin/bookmgmt"><i class="fa-solid fa-house"></i> Home </a>
       </li>
 
-      <% if (title == "Book List") { %>
+
+
+
+      <% if (title == "Drone Dispatch") { %>
         <li class="nav-item active">
         <% } else  { %>
         <li class="nav-item">
         <% } %>
-          <a class="nav-link" href="/booklist"><i class="fa-solid fa-toolbox"></i> Books </a>
-        </li>
-
-      <% if (title == "borrow") { %>
-      <li class="nav-item active">
-      <% } else  { %>
-      <li class="nav-item">
-      <% } %>
-        <a class="nav-link" href="/borrow"><i class="fa-regular fa-id-card"></i> Borrow </a>
-      </li>
-
-      <% if (title == "Return") { %>
-        <li class="nav-item active">
-        <% } else  { %>
-        <li class="nav-item">
-        <% } %>
-          <a class="nav-link" href="/return"><i class="fa-solid fa-toolbox"></i> Return </a>
+          <a class="nav-link" href="/admin/dronedispatch"><i class="bi bi-airplane-fill"></i> Drone Dispatch </a>
         </li>
 
 
