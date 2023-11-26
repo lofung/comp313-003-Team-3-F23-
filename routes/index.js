@@ -60,19 +60,22 @@ router.get('/register', checkNotAuthenticated, function (req, res, next) {
 
 /* POST TO Insert Comments of books*/
 router.post('/comment/:id', checkAuthenticated, async function (req, res, next) {
-
+ 
+ 
+  var sentimentAnalysis = '';
+ 
   console.log(req.body.comment);
-
+ 
   const feedback = req.body.comment
   var id = req.params.id
-
-
+ 
+ 
   const feedbackData = {
     name : feedback,
   };
-
+ 
   const feedbackJSON = JSON.stringify(feedbackData);
-
+ 
   const apiUrl = 'http://127.0.0.1:8354/analyze_sent';
   //Send the comment to Sentiment Analysis API
   try {
@@ -81,10 +84,11 @@ router.post('/comment/:id', checkAuthenticated, async function (req, res, next) 
         'Content-Type': 'application/json',
       },
     });
-
+ 
     // Handle the API response
     if (response.status === 200) {
-      console.log(response)
+      console.log(response.data.good)
+      sentimentAnalysis = response.data.good;
       //res.status(200).send('Thank god it worked!');
     } else {
       //res.status(response.status).send('Feedback submission failed');
@@ -93,12 +97,12 @@ router.post('/comment/:id', checkAuthenticated, async function (req, res, next) 
     console.error('Error sending feedback:', error);
     //res.status(500).send('Error sending feedback');
   }
-
-
-
+ 
+ 
+ 
   Book.findByIdAndUpdate(id,
-    { $push: { comments: { comment: req.body.comment, user_id: req.user._id, userName: req.user.name, date: new Date() } } }, (err, book) => {
-
+    { $inc: { upvotes:  sentimentAnalysis == true ? 1 : 0, downvotes: sentimentAnalysis == false ? 1 : 0 }, $push: { comments: { comment: req.body.comment, user_id: req.user._id, userName: req.user.name, date: new Date() } } }, (err, book) => {
+     
       if (err) {
         res.json({ error: "error posting comment" });
       } else {
