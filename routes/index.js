@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Book = require('../models/book')
 const Delivery = require('../models/delivery')
-
+const axios = require('axios');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -62,7 +62,7 @@ router.get('/register', checkNotAuthenticated, function (req, res, next) {
 router.post('/comment/:id', checkAuthenticated, async function (req, res, next) {
  
  
-  var sentimentAnalysis = '';
+  var sentimentAnalysis = 'error';
  
   console.log(req.body.comment);
  
@@ -91,9 +91,11 @@ router.post('/comment/:id', checkAuthenticated, async function (req, res, next) 
       sentimentAnalysis = response.data.good;
       //res.status(200).send('Thank god it worked!');
     } else {
+      sentimentAnalysis = "error"
       //res.status(response.status).send('Feedback submission failed');
     }
   } catch (error) {
+    sentimentAnalysis = "error"
     console.error('Error sending feedback:', error);
     //res.status(500).send('Error sending feedback');
   }
