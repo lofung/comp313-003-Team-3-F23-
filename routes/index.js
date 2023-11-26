@@ -160,7 +160,7 @@ router.post('/delivery/confirm/:id', checkAuthenticated, async function (req, re
     if (err) {
       res.redirect('/error');
     } else {
-      res.send("error updating book copies");
+      //res.send("error updating book copies");
       //res.redirect("/");
     }
   })
