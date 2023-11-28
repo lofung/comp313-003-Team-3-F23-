@@ -76,7 +76,8 @@ router.post('/comment/:id', checkAuthenticated, async function (req, res, next) 
  
   const feedbackJSON = JSON.stringify(feedbackData);
  
-  const apiUrl = 'http://127.0.0.1:8354/analyze_sent';
+  //const apiUrl = 'http://127.0.0.1:8354/analyze_sent';
+  const apiUrl = 'http://184.146.137.203:8354/analyze_sent';
   //Send the comment to Sentiment Analysis API
   try {
     const response = await axios.post(apiUrl, feedbackJSON, {
