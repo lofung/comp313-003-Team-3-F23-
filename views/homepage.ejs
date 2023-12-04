@@ -138,7 +138,7 @@
       <h2>Available Books</h2>
 
       <p>Search all book details:</p>
-      <input class="form-control" id="myInput" type="text" placeholder="Search..">
+      <input class="form-control" id="myInput" type="text" placeholder="Search...">
       <div class="card-group">
         <% books.forEach(function(book,index) { %>
           <div class="card"
@@ -150,13 +150,13 @@
               <h4 class="card-title" style="text-align: center;">
                 <%= book.title %>
               </h4>
-              <i style="text-align: center; display: block;">by <%= book.author %></i>
+              <i style="text-align: center; display: block;">Author: <%= book.author %></i>
               <br />
               <p><b>Genre:</b>
                 <%=book.genre%>
               </p>
               <hr>
-              <b>Description</b>
+              <b>Description:</b>
               <p class="card-text"
                 style="min-height:27px ; white-space: nowrap;overflow: hidden; text-overflow: ellipsis;">
                 <%= book.description %>
@@ -189,8 +189,8 @@
                     Date(book.publishedDate).toLocaleString("en-CA",{year: 'numeric' ,month: 'long' , day: 'numeric' })
                     : 'unspecified' %>
                     <br>
-                    Copies Available: <%= book.copiesAvailable %> <br />
-                      Weight: <% book.weight %>
+                    Available Copies: <%= book.copiesAvailable %> <br />
+                    Weight: <% book.weight %>
               </small>
             </div>
           </div>
