@@ -8,15 +8,16 @@
 </head>
 <body>
   <h1>Submit your feedback or report an issue here.</h1>
-  
-  <% if (success) { %>
-    <p class="success-message">Thank you for submitting your feedback!</p>
-  <% } %>
-  
-  <form action="/submit-feedback" method="post">
-    <label for="feedback">Your Feedback:</label>
-    <textarea name="feedback" id="feedback" rows="4" required></textarea>
-    <button type="submit">Submit Feedback</button>
-  </form>
+  <div style="position: relative">
+    <div style="margin: auto; width: 40%;">
+      <form action="/submit-feedback" method="post">
+        <label for="feedback">Your Feedback:</label>
+        <textarea name="feedback" id="feedback" rows="4" required></textarea>
+        <button type="submit">Submit Feedback</button>
+      </form>
+    </div>
+  </div>
+
+
 </body>
 </html>
