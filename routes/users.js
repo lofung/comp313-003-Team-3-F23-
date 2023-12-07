@@ -39,10 +39,25 @@ router.post('/v1/register', async function(req, res, next) {
 });
 
 router.post('/v1/login', passport.authenticate('local', {
+  failureRedirect: '/login',
+  failureFlash: true
+}), function(req, res) {
+  // Check if the username is "admin"
+  if (req.user.name == 'admin') {
+    return res.redirect('/admin/bookmgmt');
+  }
+
+  // For other users, redirect to the default route '/'
+  return res.redirect('/');
+});
+
+/*
+router.post('/v1/login', passport.authenticate('local', {
   successRedirect:'/', 
   failureRedirect:'/login', 
   failureFlash: true
   }))
+*/
 
 router.delete('/v1/logout', (req, res, next) => {
   req.logOut((err) => {
